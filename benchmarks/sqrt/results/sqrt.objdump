@@ -1,0 +1,128 @@
+
+/tmp/sqrt:     file format elf64-littleriscv
+
+SYMBOL TABLE:
+0000000000010078 l    d  .text	0000000000000000 .text
+00000000000101e8 l    d  .rodata	0000000000000000 .rodata
+0000000000000000 l    d  .comment	0000000000000000 .comment
+0000000000000000 l    d  .wcet_annot	0000000000000000 .wcet_annot
+0000000000000000 l    d  .riscv.attributes	0000000000000000 .riscv.attributes
+0000000000000000 l    d  .debug_aranges	0000000000000000 .debug_aranges
+0000000000000000 l    d  .debug_info	0000000000000000 .debug_info
+0000000000000000 l    d  .debug_abbrev	0000000000000000 .debug_abbrev
+0000000000000000 l    d  .debug_line	0000000000000000 .debug_line
+0000000000000000 l    d  .debug_frame	0000000000000000 .debug_frame
+0000000000000000 l    d  .debug_str	0000000000000000 .debug_str
+0000000000000000 l    df *ABS*	0000000000000000 sqrt.c
+00000000000119fc g       *ABS*	0000000000000000 __global_pointer$
+00000000000111fc g       .rodata	0000000000000000 __SDATA_BEGIN__
+00000000000100ac g     F .text	0000000000000110 my_sqrt
+0000000000010078 g     F .text	0000000000000034 my_fabs
+0000000000011200 g       .rodata	0000000000000000 __BSS_END__
+00000000000111fc g       .rodata	0000000000000000 __bss_start
+00000000000101bc g     F .text	000000000000002c main
+00000000000111fc g       .rodata	0000000000000000 __DATA_BEGIN__
+00000000000111fc g       .rodata	0000000000000000 _edata
+0000000000011200 g       .rodata	0000000000000000 _end
+
+
+
+Disassembly of section .text:
+
+0000000000010078 <my_fabs>:
+   10078:	ff010113          	addi	sp,sp,-16
+   1007c:	00a12627          	fsw	fa0,12(sp)
+   10080:	00c12787          	flw	fa5,12(sp)
+   10084:	f0000753          	fmv.w.x	fa4,zero
+   10088:	a0e797d3          	flt.s	a5,fa5,fa4
+   1008c:	00078863          	beqz	a5,1009c <my_fabs+0x24>
+   10090:	00c12787          	flw	fa5,12(sp)
+   10094:	20f797d3          	fneg.s	fa5,fa5
+   10098:	0080006f          	j	100a0 <my_fabs+0x28>
+   1009c:	00c12787          	flw	fa5,12(sp)
+   100a0:	20f78553          	fmv.s	fa0,fa5
+   100a4:	01010113          	addi	sp,sp,16
+   100a8:	00008067          	ret
+
+00000000000100ac <my_sqrt>:
+   100ac:	fb010113          	addi	sp,sp,-80
+   100b0:	04113423          	sd	ra,72(sp)
+   100b4:	00a12627          	fsw	fa0,12(sp)
+   100b8:	00c12707          	flw	fa4,12(sp)
+   100bc:	000107b7          	lui	a5,0x10
+   100c0:	1e87a787          	flw	fa5,488(a5) # 101e8 <main+0x2c>
+   100c4:	18f777d3          	fdiv.s	fa5,fa4,fa5
+   100c8:	02f12e27          	fsw	fa5,60(sp)
+   100cc:	000107b7          	lui	a5,0x10
+   100d0:	1f07b787          	fld	fa5,496(a5) # 101f0 <main+0x34>
+   100d4:	02f13427          	fsd	fa5,40(sp)
+   100d8:	02012a23          	sw	zero,52(sp)
+   100dc:	00c12787          	flw	fa5,12(sp)
+   100e0:	f0000753          	fmv.w.x	fa4,zero
+   100e4:	a0e7a7d3          	feq.s	a5,fa5,fa4
+   100e8:	00078663          	beqz	a5,100f4 <my_sqrt+0x48>
+   100ec:	02012e23          	sw	zero,60(sp)
+   100f0:	0b80006f          	j	101a8 <my_sqrt+0xfc>
+   100f4:	00100793          	li	a5,1
+   100f8:	02f12c23          	sw	a5,56(sp)
+   100fc:	09c0006f          	j	10198 <my_sqrt+0xec>
+   10100:	03412783          	lw	a5,52(sp)
+   10104:	0007879b          	sext.w	a5,a5
+   10108:	08079263          	bnez	a5,1018c <my_sqrt+0xe0>
+   1010c:	03c12787          	flw	fa5,60(sp)
+   10110:	10f7f7d3          	fmul.s	fa5,fa5,fa5
+   10114:	00c12707          	flw	fa4,12(sp)
+   10118:	08f777d3          	fsub.s	fa5,fa4,fa5
+   1011c:	42078753          	fcvt.d.s	fa4,fa5
+   10120:	03c12787          	flw	fa5,60(sp)
+   10124:	420787d3          	fcvt.d.s	fa5,fa5
+   10128:	02f7f7d3          	fadd.d	fa5,fa5,fa5
+   1012c:	1af777d3          	fdiv.d	fa5,fa4,fa5
+   10130:	4017f7d3          	fcvt.s.d	fa5,fa5
+   10134:	02f12227          	fsw	fa5,36(sp)
+   10138:	03c12707          	flw	fa4,60(sp)
+   1013c:	02412787          	flw	fa5,36(sp)
+   10140:	00f777d3          	fadd.s	fa5,fa4,fa5
+   10144:	02f12e27          	fsw	fa5,60(sp)
+   10148:	03c12787          	flw	fa5,60(sp)
+   1014c:	10f7f7d3          	fmul.s	fa5,fa5,fa5
+   10150:	00c12707          	flw	fa4,12(sp)
+   10154:	08f777d3          	fsub.s	fa5,fa4,fa5
+   10158:	420787d3          	fcvt.d.s	fa5,fa5
+   1015c:	00f13c27          	fsd	fa5,24(sp)
+   10160:	01813787          	fld	fa5,24(sp)
+   10164:	4017f7d3          	fcvt.s.d	fa5,fa5
+   10168:	20f78553          	fmv.s	fa0,fa5
+   1016c:	f0dff0ef          	jal	ra,10078 <my_fabs>
+   10170:	20a507d3          	fmv.s	fa5,fa0
+   10174:	420787d3          	fcvt.d.s	fa5,fa5
+   10178:	02813707          	fld	fa4,40(sp)
+   1017c:	a2e787d3          	fle.d	a5,fa5,fa4
+   10180:	00078663          	beqz	a5,1018c <my_sqrt+0xe0>
+   10184:	00100793          	li	a5,1
+   10188:	02f12a23          	sw	a5,52(sp)
+   1018c:	03812783          	lw	a5,56(sp)
+   10190:	0017879b          	addiw	a5,a5,1
+   10194:	02f12c23          	sw	a5,56(sp)
+   10198:	03812783          	lw	a5,56(sp)
+   1019c:	0007871b          	sext.w	a4,a5
+   101a0:	01300793          	li	a5,19
+   101a4:	f4e7dee3          	bge	a5,a4,10100 <my_sqrt+0x54>
+   101a8:	03c12787          	flw	fa5,60(sp)
+   101ac:	20f78553          	fmv.s	fa0,fa5
+   101b0:	04813083          	ld	ra,72(sp)
+   101b4:	05010113          	addi	sp,sp,80
+   101b8:	00008067          	ret
+
+00000000000101bc <main>:
+   101bc:	ff010113          	addi	sp,sp,-16
+   101c0:	00113423          	sd	ra,8(sp)
+   101c4:	000107b7          	lui	a5,0x10
+   101c8:	1f87a787          	flw	fa5,504(a5) # 101f8 <main+0x3c>
+   101cc:	20f78553          	fmv.s	fa0,fa5
+   101d0:	eddff0ef          	jal	ra,100ac <my_sqrt>
+   101d4:	00000793          	li	a5,0
+   101d8:	00078513          	mv	a0,a5
+   101dc:	00813083          	ld	ra,8(sp)
+   101e0:	01010113          	addi	sp,sp,16
+   101e4:	00008067          	ret

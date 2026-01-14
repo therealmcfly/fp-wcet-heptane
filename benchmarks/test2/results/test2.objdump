@@ -1,0 +1,50 @@
+
+/tmp/test2:     file format elf32-littleriscv
+
+SYMBOL TABLE:
+00010054 l    d  .text	00000000 .text
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .switch_begin	00000000 .switch_begin
+00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
+00000000 l    df *ABS*	00000000 test2.c
+000118c0 g       *ABS*	00000000 __global_pointer$
+000110c0 g       .text	00000000 __SDATA_BEGIN__
+000110c0 g       .text	00000000 __BSS_END__
+000110c0 g       .text	00000000 __bss_start
+00010054 g     F .text	0000006c main
+000110c0 g       .text	00000000 __DATA_BEGIN__
+000110c0 g       .text	00000000 _edata
+000110c0 g       .text	00000000 _end
+
+
+
+Disassembly of section .text:
+
+00010054 <main>:
+   10054:	fe010113          	addi	sp,sp,-32
+   10058:	00812e23          	sw	s0,28(sp)
+   1005c:	02010413          	addi	s0,sp,32
+   10060:	fea42623          	sw	a0,-20(s0)
+   10064:	fec42783          	lw	a5,-20(s0)
+   10068:	02079c63          	bnez	a5,100a0 <main+0x4c>
+   1006c:	fec42783          	lw	a5,-20(s0)
+   10070:	00178793          	addi	a5,a5,1
+   10074:	fef42623          	sw	a5,-20(s0)
+   10078:	fec42783          	lw	a5,-20(s0)
+   1007c:	00278793          	addi	a5,a5,2
+   10080:	fef42623          	sw	a5,-20(s0)
+   10084:	fec42783          	lw	a5,-20(s0)
+   10088:	00378793          	addi	a5,a5,3
+   1008c:	fef42623          	sw	a5,-20(s0)
+   10090:	fec42783          	lw	a5,-20(s0)
+   10094:	00478793          	addi	a5,a5,4
+   10098:	fef42623          	sw	a5,-20(s0)
+   1009c:	0140006f          	j	100b0 <main+0x5c>
+   100a0:	fec42783          	lw	a5,-20(s0)
+   100a4:	00178793          	addi	a5,a5,1
+   100a8:	fef42623          	sw	a5,-20(s0)
+   100ac:	00000013          	nop
+   100b0:	00000013          	nop
+   100b4:	01c12403          	lw	s0,28(sp)
+   100b8:	02010113          	addi	sp,sp,32
+   100bc:	00008067          	ret

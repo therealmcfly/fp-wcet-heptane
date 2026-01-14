@@ -1,0 +1,159 @@
+\doxysection{Cfg.\+h}
+\hypertarget{Cfg_8h_source}{}\label{Cfg_8h_source}\index{include/Cfg.h@{include/Cfg.h}}
+\mbox{\hyperlink{Cfg_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ \ \ Copyright\ IRISA,\ 2003-\/2017}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ \ \ This\ file\ is\ part\ of\ Heptane,\ a\ tool\ for\ Worst-\/Case\ Execution\ Time\ (WCET)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ \ estimation.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ \ \ APP\ deposit\ IDDN.FR.001.510039.000.S.P.2003.000.10600}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ \ Heptane\ is\ free\ software:\ you\ can\ redistribute\ it\ and/or\ modify}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ \ \ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License\ as\ published\ by}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ \ \ the\ Free\ Software\ Foundation,\ either\ version\ 3\ of\ the\ License,\ or}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ \ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ Heptane\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ \ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ GNU\ General\ Public\ License\ for\ more\ details\ (COPYING.txt).}}
+\DoxyCodeLine{00018\ \textcolor{comment}{}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ See\ CREDITS.txt\ for\ credits\ of\ authorship}}
+\DoxyCodeLine{00020\ \textcolor{comment}{}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ \_IRISA\_CFGLIB\_CFG\_H}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ \_IRISA\_CFGLIB\_CFG\_H}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{comment}{/*\ \#includes\ and\ forward\ declarations\ :\ */}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Attributed_8h}{Attributed.h}}"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Node_8h}{Node.h}}"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Edge_8h}{Edge.h}}"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Loop_8h}{Loop.h}}"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Program_8h}{Program.h}}"{}}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00037\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecfglib}{cfglib}}\ }
+\DoxyCodeLine{00038\ \{}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00041\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcfglib_1_1Attributed}{Attributed}}\ \{}
+\DoxyCodeLine{00042\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00044\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Program}{Program}}*\ program\ ;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ t\_address\ addr;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ \ \ \ std::string\ name;\ (LBesnard)\ replaced\ by}}
+\DoxyCodeLine{00050\ \ \ \ \ ListOfString\ name;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ external;}
+\DoxyCodeLine{00054\ \ \ \ \ }
+\DoxyCodeLine{00056\ \ \ \ \ std::vector<Node*>\ nodes\ ;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ startNode\ ;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00062\ \ \ \ \ std::vector<Node*>\ endNodes\ ;}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00065\ \ \ \ \ std::vector<Edge*>\ edges\ ;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00068\ \ \ \ \ std::vector<Loop*>\ loops\ ;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Edge}{Edge}}*\ CreateNewEdge()\ ;}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ privateClear();}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{comment}{//\ Cfg(Program*\ program,\ std::string\ name);\ }}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg_a0100bef586e13e2ad53c83b20e365c5e}{Cfg}}(\mbox{\hyperlink{classcfglib_1_1Program}{Program}}*\ program,\ ListOfString\ name);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg_ac380ececaf34c627dd59fe94f3d3c115}{Cfg}}(\mbox{\hyperlink{classcfglib_1_1Program}{Program}}*\ program,\ t\_address\ addr,\ ListOfString\ name);}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{comment}{//TP}}
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg_a3c7102871bcac1c06389aa38674c76b1}{Cfg}}(ListOfString\ name);}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg_a279b0b9b7f73a621bc50b35cf7fb7dda}{\string~Cfg}}();}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{comment}{//TP}}
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_a4a3be154de353889a6149699674921a1}{Clone}}(\mbox{\hyperlink{classcfglib_1_1CloneHandle}{CloneHandle}}\&);}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_ac8d657ba09b6395c99b7490eec99308f}{becomesExternal}}();}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00099\ \ \ \ \ ListOfString\ \mbox{\hyperlink{classcfglib_1_1Cfg_a429688de55701afc5e5e41a6cfcae050}{GetName}}()\ ;}
+\DoxyCodeLine{00100\ \ \ \ \ }
+\DoxyCodeLine{00102\ \ \ \ \ t\_address\ \mbox{\hyperlink{classcfglib_1_1Cfg_a3f8448ab4200b28efd4fe58e3f93464c}{GetAddress}}();}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcfglib_1_1Cfg_a53c796e515ba5bdad1dd17b5e2cea403}{IsExternal}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00108\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Program}{Program}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_a825470a289cc6228cc71dbf40f71d18f}{GetProgram}}()\ ;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{comment}{//TP}}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_a6408b372beac5ab2eaa02dbea18ca23c}{SetProgram}}(\mbox{\hyperlink{classcfglib_1_1Program}{Program}}*\ p);}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00115\ \ \ \ \ std::vector<Node*>\ \mbox{\hyperlink{classcfglib_1_1Cfg_a56d2a84dd750b6f50e92990671b9ae0a}{GetCallNodes}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00116\ \ \ \ \ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcfglib_1_1Cfg_a09c2fff20ceddf2a659bbc8e64559f8e}{IsEmpty}}()\ \textcolor{keyword}{const}\ ;}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_a590c6c86dc84a24b6cadbe982bb08b2a}{CreateNewNode}}(\textcolor{keyword}{enum}\ \mbox{\hyperlink{namespacecfglib_a44952a45d827aaa271f7e7dac5bf7752}{node\_type}}\ type);}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00131\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Edge}{Edge}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_aa5429f8d84bb638dfcb880c16e383484}{CreateNewEdge}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ origin,\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ destination);}
+\DoxyCodeLine{00133\ \ \ \ \ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_a4150c4a82a82d63ab855595c844148f2}{RemoveEdge}}(\mbox{\hyperlink{classcfglib_1_1Edge}{Edge}}\ *e);}
+\DoxyCodeLine{00137\ \ \ \ \ }
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_acebbb5cb49f9cf8c50ffe0918cbd98d1}{RemoveEdgeNoDelete}}(\mbox{\hyperlink{classcfglib_1_1Edge}{Edge}}\ *e);}
+\DoxyCodeLine{00141\ \ \ \ \ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_aca4049e467e6979666c3273bf3e3045a}{putEdge}}(\mbox{\hyperlink{classcfglib_1_1Edge}{Edge}}*\ E);}
+\DoxyCodeLine{00145\ \ \ \ \ }
+\DoxyCodeLine{00147\ \ \ \ \ std::vector<Node*>\ \mbox{\hyperlink{classcfglib_1_1Cfg_a91b7e6b1360c8eaa95b810f029536a49}{GetAllNodes}}();}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00150\ \ \ \ \ std::vector<Edge*>\ \mbox{\hyperlink{classcfglib_1_1Cfg_ab7f52ee84d752482f4410c01218ef36d}{GetAllEdges}}();}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00153\ \ \ \ \ std::vector<Loop*>\ \mbox{\hyperlink{classcfglib_1_1Cfg_a1da88d9a0ebc4fc155376b1793fa6dbd}{GetAllLoops}}();}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00157\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Edge}{Edge}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_a6ba34e84d0efd2d8a86ca65248332e4a}{FindEdge}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}\ \textcolor{keyword}{const}*\ origin,\ \mbox{\hyperlink{classcfglib_1_1Node}{Node}}\ \textcolor{keyword}{const}*\ destination)\ \textcolor{keyword}{const}\ ;}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00162\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_a0ec69b52e9a4e5c7ca343472b4079148}{GetStartNode}}();}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_ad77f85cebfb1ef7e55afa78f48b6f96e}{SetStartNode}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ node);}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00168\ \ \ \ \ std::vector<Node*>\ \mbox{\hyperlink{classcfglib_1_1Cfg_aebd3951fe6f7c2450d16f9ed93240ed4}{GetEndNodes}}();}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_ae235a54ff74dd424c6b5d582ce670c5b}{SetEndNode}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ node);}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_a892063ed55599c1618e49dd31555e7fb}{removeEndNode}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}\ *\ node);}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00176\ \ \ \ \ std::vector<Edge*>\ \mbox{\hyperlink{classcfglib_1_1Cfg_a8c807a9a3190537426d0d0f8e0085870}{GetIncomingEdges}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ node);}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00179\ \ \ \ \ std::vector<Node*>\ \mbox{\hyperlink{classcfglib_1_1Cfg_ad641b322b41cfe83df4df4aee0966340}{GetPredecessors}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ node);}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00182\ \ \ \ \ std::vector<Edge*>\ \mbox{\hyperlink{classcfglib_1_1Cfg_a66ed7b85df660c93f3f0e3ab0e0c8ff8}{GetOutgoingEdges}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ node);}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00188\ \ \ \ \ std::vector<Node*>\ \mbox{\hyperlink{classcfglib_1_1Cfg_a4f26dda0a3854f8b48df3a67acddee4d}{GetSuccessors}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ node);}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00191\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_a69b0ff5281ba5dcd76a1a7df09b6d7a9}{GetSourceNode}}(\mbox{\hyperlink{classcfglib_1_1Edge}{Edge}}*\ edge);}
+\DoxyCodeLine{00192\ \ \ \ \ }
+\DoxyCodeLine{00194\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_a2c275e5e2de7c780e6bec5e6fbfc8424}{GetTargetNode}}(\mbox{\hyperlink{classcfglib_1_1Edge}{Edge}}*\ edge);}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00201\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Loop}{Loop}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_a34dc876b28c1e029aad90fb39bdb3a5d}{CreateNewLoop}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ startNode,\ std::vector<Node*>\ \textcolor{keyword}{const}\&\ otherNodesList)\ ;}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00205\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Loop}{Loop}}*\ \mbox{\hyperlink{classcfglib_1_1Cfg_a08dd4bb6fb41fe25138e152fa2a703ca}{CreateNewLoop}}()\ ;}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_a4c71befb94beac37921b82361825cc54}{RemoveLoop}}(\mbox{\hyperlink{classcfglib_1_1Loop}{Loop}}*\ loop);}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00211\ \ \ \ \ std::ostream\&\ \mbox{\hyperlink{classcfglib_1_1Cfg_a39b8bacb0aca7a2c0e74e2a791c2d985}{WriteXml}}(std::ostream\&\ oss,\ \mbox{\hyperlink{classcfglib_1_1Handle}{Handle}}\&\ hand)\ \ ;}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Cfg_a3525e0c748971e945193da2a0dd4b571}{ReadXml}}(\mbox{\hyperlink{classXmlTag}{XmlTag}}\ \textcolor{keyword}{const}*\ tag,\ \mbox{\hyperlink{classcfglib_1_1Handle}{Handle}}\&\ hand);}
+\DoxyCodeLine{00215\ \ \ \ \ }
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{comment}{//\ void\ printNames();\ void\ printNames(std::ostream\&\ os)\ ;}}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{classcfglib_1_1Cfg_ae9317f335c39263f55484b0149725d4c}{getStringName}}();}
+\DoxyCodeLine{00219\ \ \ \}\ ;}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \}\ \textcolor{comment}{//\ cfglib::}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_IRISA\_CFGLIB\_CFG\_H}}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ }
+
+\end{DoxyCode}

@@ -1,0 +1,15 @@
+Heptane Analysis, version 3.1
+Reading configuration file
+Executing from configuration file
+
+*** Begin analysis for entry point: main
+IPET method: NOPIPELINE_ICACHE_DCACHE
+[INFO]	******** IPET: 0.003277
+
+[INFO]	******** SESEANALYSIS: 0.000723
+[INFO]	 =======> Total time for the analyses = 0.01127
+WCET: 16400
+[INFO]	******** SIMPLEPRINT: 2e-06
+[INFO]	******** DOTPRINT: 0.017659
+The binary file is maybe not compiled with the -ggdb option or the code has been modified 
+Stopping code line association

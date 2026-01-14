@@ -1,0 +1,178 @@
+\doxysection{Helper.\+h}
+\hypertarget{Helper_8h_source}{}\label{Helper_8h_source}\index{include/Helper.h@{include/Helper.h}}
+\mbox{\hyperlink{Helper_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ IRISA,\ 2003-\/2017}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Heptane,\ a\ tool\ for\ Worst-\/Case\ Execution\ Time\ (WCET)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{estimation.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{APP\ deposit\ IDDN.FR.001.510039.000.S.P.2003.000.10600}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{Heptane\ is\ free\ software:\ you\ can\ redistribute\ it\ and/or\ modify}}
+\DoxyCodeLine{00010\ \textcolor{comment}{it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License\ as\ published\ by}}
+\DoxyCodeLine{00011\ \textcolor{comment}{the\ Free\ Software\ Foundation,\ either\ version\ 3\ of\ the\ License,\ or}}
+\DoxyCodeLine{00012\ \textcolor{comment}{(at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{Heptane\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00015\ \textcolor{comment}{but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00016\ \textcolor{comment}{MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00017\ \textcolor{comment}{GNU\ General\ Public\ License\ for\ more\ details\ (COPYING.txt).}}
+\DoxyCodeLine{00018\ \textcolor{comment}{}}
+\DoxyCodeLine{00019\ \textcolor{comment}{See\ CREDITS.txt\ for\ credits\ of\ authorship}}
+\DoxyCodeLine{00020\ \textcolor{comment}{}}
+\DoxyCodeLine{00021\ \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ \_IRISA\_CFGLIB\_HELPER\_H}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ \_IRISA\_CFGLIB\_HELPER\_H}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecfglib}{cfglib}}\ }
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{namespace\ }helper\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{class}\ K,\ \textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::vector<T>\ \mbox{\hyperlink{namespacecfglib_1_1helper_a19a9a96e2983d6757fce8c6843f37b89}{get\_values\_of\_map}}(std::map<K,\ T>\ mymap)}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<T>\ values\ ;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{typename}\ std::map<K,T>::const\_iterator\ it\ =}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mymap.begin()\ ;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it\ !=\ mymap.end()\ ;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it++)}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ values.push\_back(it-\/>second)\ ;\ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ values\ ;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ K,\ \textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::vector<K>\ \mbox{\hyperlink{namespacecfglib_1_1helper_aa5d61c32fe5ae5e7595953d8a9f6084b}{get\_keys\_of\_map}}(std::map<K,\ T>\ mymap)}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<K>\ keys\ ;}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{typename}\ std::map<K,T>::const\_iterator\ it\ =}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mymap.begin()\ ;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it\ !=\ mymap.end()\ ;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ it++)}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ keys.push\_back(it-\/>first)\ ;\ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ keys\ ;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::string\ \mbox{\hyperlink{namespacecfglib_1_1helper_ae880d04f2f8ac3fecbda16531db992b5}{int\_to\_string}}(\textcolor{keywordtype}{int}\ \textcolor{keyword}{const}\&\ i)}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ std::ostringstream\ str\ ;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ str\ <<\ i\ ;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str.str()\ ;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\&\ cp,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ for\_this,}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ sub\_this)}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cp.empty())}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//cp\ =\ sub\_this;}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ prec\_loc\_end=0\ ;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ loc\ =\ cp.find(for\_this,prec\_loc\_end);}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (loc\ !=\ std::string::npos)}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ \ cp.replace(loc,for\_this.length(),sub\_this);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prec\_loc\_end\ =\ loc\ +\ sub\_this.length()\ ;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\ \ \ \textcolor{keywordflow}{return};\ \}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::string\ \mbox{\hyperlink{namespacecfglib_1_1helper_aba2387b203342db23a47897b59779631}{escape\_xml}}(std::string\ \textcolor{keyword}{const}\&\ str)}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ escaped(str)\ ;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}\&"{}},\ \textcolor{stringliteral}{"{}\&amp;"{}})\ ;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}\(\backslash\)"{}"{}},\ \textcolor{stringliteral}{"{}\&quot;"{}})\ ;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}>"{}},\ \textcolor{stringliteral}{"{}\&gt;"{}})\ ;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}<"{}},\ \textcolor{stringliteral}{"{}\&lt;"{}})\ ;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}'"{}},\ \textcolor{stringliteral}{"{}\&apos;"{}})\ ;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ escaped\ ;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::string\ \mbox{\hyperlink{namespacecfglib_1_1helper_a4bde730048efc8d68682f368b010f18d}{unescape\_xml}}(std::string\ \textcolor{keyword}{const}\&\ str)}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ escaped(str)\ ;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}\&quot;"{}},\ \textcolor{stringliteral}{"{}\(\backslash\)"{}"{}})\ ;}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}\&gt;"{}},\ \ \ \textcolor{stringliteral}{"{}>"{}}\ )\ ;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}\&lt;"{}},\ \ \ \textcolor{stringliteral}{"{}<"{}}\ )\ ;}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}\&apos;"{}},\ \textcolor{stringliteral}{"{}'"{}}\ )\ ;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{namespacecfglib_1_1helper_a881befb2313de589fc1f352316fa139f}{substitute\_all\_substrings}}(escaped,\ \textcolor{stringliteral}{"{}\&amp;"{}},\ \ \textcolor{stringliteral}{"{}\&"{}}\ )\ ;}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ escaped\ ;}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::vector<std::string>\ \mbox{\hyperlink{namespacecfglib_1_1helper_aa9f3622699838e68e86d7539f6d23fb4}{split\_string}}(}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ input,\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ \textcolor{keyword}{const}\&\ delimiter,}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ empty\_fields=\textcolor{keyword}{false})\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }std::vector\ ;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }std::string\ ;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ vector<string>\ result\ ;\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((input.size()\ ==\ 0\ )\ ||\ (delimiter.size()\ ==\ 0))}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \{\ \textcolor{keywordflow}{return}\ result;\ \}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ string::size\_type\ size\_delim\ =\ delimiter.size()\ ;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ string::size\_type\ prec\_pos\ =\ 0;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ string::size\_type\ cur\_pos\ =\ input.find(delimiter,\ 0);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (cur\_pos\ !=\ string::npos)}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ cur(input.substr(prec\_pos,\ cur\_pos\ -\/\ prec\_pos))\ ;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((0\ !=\ cur.size())\ ||\ empty\_fields)\ \ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \{\ result.push\_back(cur)\ ;\ \}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ prec\_pos\ =\ cur\_pos\ +\ size\_delim\ ;}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ cur\_pos\ =\ input.find(delimiter,\ cur\_pos\ +\ size\_delim)\ ;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result\ ;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::string\ \mbox{\hyperlink{namespacecfglib_1_1helper_a7cf8c4c7057fb03857f0f9844ffcca62}{getBaseName}}(std::string\ file)}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ position=0;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ hasdir\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i=0;i<file.size();i++)\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file[i]==\textcolor{charliteral}{'/'})\ \{position=i;\ hasdir=\textcolor{keyword}{true};\}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ std::string\ p;}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ start;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (hasdir)\ start=position+1;\ \textcolor{keywordflow}{else}\ start=position;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i=start;i<file.size();i++)\ }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ p+=file[i];}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ p;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::string\ \mbox{\hyperlink{namespacecfglib_1_1helper_ab650f4d56d31c95fb20f656b620fecae}{getDirName}}(std::string\ file)}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ position=0;}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i=0;i<file.size();i++)\ }
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file[i]==\textcolor{charliteral}{'/'})\ position=i;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ std::string\ p;}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i=0;i<position+1;i++)\ p+=file[i];}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ p;}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \textcolor{keyword}{inline}\ std::string\ \mbox{\hyperlink{namespacecfglib_1_1helper_a6fa2db3729eb85015591dea07b7f0b69}{extractBase}}(std::string\ file)}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ position=0;}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i=0;i<file.size();i++)\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file[i]==\textcolor{charliteral}{'.'})\ position=i;}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ std::string\ p;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ i=0;i<position;i++)\ p+=file[i];}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ p;}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \}}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \}\ \textcolor{comment}{//\ cfglib::}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_IRISA\_CFGLIB\_HELPER\_H}}
+
+\end{DoxyCode}

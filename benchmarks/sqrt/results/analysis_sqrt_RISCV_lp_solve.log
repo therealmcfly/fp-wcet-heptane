@@ -1,0 +1,40 @@
+Heptane Analysis, version 3.1
+Reading configuration file
+Executing from configuration file
+
+*** Begin analysis for entry point: main
+[INFO]	ICacheAnalysis: MUST done: 0.000809
+[INFO]	ICacheAnalysis: PS done: 0.000309
+[INFO]	ICacheAnalysis: MAY done: 0.000629
+[INFO]	******** ICACHE: 0.001931
+[INFO]	ICacheAnalysis: MUST done: 0.001801
+[INFO]	ICacheAnalysis: PS done: 0.000345
+[INFO]	ICacheAnalysis: MAY done: 0.001199
+[INFO]	******** ICACHE: 0.003526
+[INFO]	 ++++ Stack size = 112
+[INFO]	******** DATAADDRESS: 0.005097
+[INFO]	DcacheAnalysis: MUST done: 0.000876
+[INFO]	DcacheAnalysis: PS done: 0.000347
+[INFO]	DcacheAnalysis: MAY done: 0.000682
+[INFO]	******** DCACHE: 0.002388
+[INFO]	DcacheAnalysis: MUST done: 0.001806
+[INFO]	DcacheAnalysis: PS done: 0.000425
+[INFO]	DcacheAnalysis: MAY done: 0.000986
+[INFO]	******** DCACHE: 0.003677
+[INFO]	******** PIPELINE: 0.009081
+IPET method: NOPIPELINE_ICACHE_DCACHE
+[INFO]	******** IPET: 0.00529
+
+[INFO]	******** SESEANALYSIS: 0.000193
+L1	type ICACHE	references 1065	hits 1052	misses 13	
+L1	type DCACHE	references 275	hits 269	misses 6	
+L2	type ICACHE	references 13	hits 4	misses 9	
+L2	type DCACHE	references 6	hits 1	misses 5	
+[INFO]	******** CACHESTATISTICS: 0.000478
+[INFO]	 =======> Total time for the analyses = 0.044006
+WCET: 15030
+[INFO]	******** SIMPLEPRINT: 1e-06
+[INFO]	******** DOTPRINT: 0.021028
+[INFO]	******** CODELINE: 0.017169
+[INFO]	******** HTMLPRINT: 0.000352
+[INFO]	 =======> Total Time = 0.083273

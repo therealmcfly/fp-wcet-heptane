@@ -1,0 +1,11 @@
+digraph G {
+subgraph cluster_main {
+graph [label = "main (SESE 0)"];
+node0x6285a113b010 [label = "@0x10078 (BB)\n frequency_c0=1\n" ,color="blue"];
+}
+subgraph cluster_SESERegion_of_main {
+graph [label = "Region tree of main"];
+region0x6285a11344a0 [label = "SESE 0
+CFG region, entry = 10078"];
+}
+}

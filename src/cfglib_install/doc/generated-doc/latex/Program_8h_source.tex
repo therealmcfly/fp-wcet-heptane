@@ -1,0 +1,102 @@
+\doxysection{Program.\+h}
+\hypertarget{Program_8h_source}{}\label{Program_8h_source}\index{include/Program.h@{include/Program.h}}
+\mbox{\hyperlink{Program_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ \ \ Copyright\ IRISA,\ 2003-\/2017}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ \ \ This\ file\ is\ part\ of\ Heptane,\ a\ tool\ for\ Worst-\/Case\ Execution\ Time\ (WCET)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ \ estimation.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ \ \ APP\ deposit\ IDDN.FR.001.510039.000.S.P.2003.000.10600}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ \ Heptane\ is\ free\ software:\ you\ can\ redistribute\ it\ and/or\ modify}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ \ \ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License\ as\ published\ by}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ \ \ the\ Free\ Software\ Foundation,\ either\ version\ 3\ of\ the\ License,\ or}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ \ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ Heptane\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ \ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ GNU\ General\ Public\ License\ for\ more\ details\ (COPYING.txt).}}
+\DoxyCodeLine{00018\ \textcolor{comment}{}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ See\ CREDITS.txt\ for\ credits\ of\ authorship}}
+\DoxyCodeLine{00020\ \textcolor{comment}{}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ \_IRISA\_CFGLIB\_PROGRAM\_H}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ \_IRISA\_CFGLIB\_PROGRAM\_H}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{comment}{/*\ \#includes\ and\ forward\ declarations\ :\ */}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Attributed_8h}{Attributed.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Factory_8h}{Factory.h}}"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Handle_8h}{Handle.h}}"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}HeptaneStdTypes.h"{}}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecfglib}{cfglib}}\ }
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \textcolor{comment}{/*\ \#includes\ and\ forward\ declarations\ :\ */}}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{class\ }Cfg\ ;\ \textcolor{comment}{//\ cf.\ Cfg.h}}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{class\ }AttributesFactory\ ;\ \textcolor{comment}{//\ cf.\ Factory.h}}
+\DoxyCodeLine{00040\ \ \ \textcolor{keyword}{typedef}\ std::vector<Cfg*>\ \mbox{\hyperlink{namespacecfglib_a6d40ca49d73d6bd01cf38af88645373a}{listOfCfg}};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcfglib_1_1Program}{Program}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcfglib_1_1Attributed}{Attributed}}\ \{}
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{namespacecfglib_a6d40ca49d73d6bd01cf38af88645373a}{listOfCfg}}\ cfgs\_list\ ;}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}*\ entry\_point;}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{string}\ name;}
+\DoxyCodeLine{00051\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Handle}{Handle}}\ \mbox{\hyperlink{classcfglib_1_1Program_a13cc0a03cdf31ab9cfa9a0a7b0dff8ed}{hand}};\ \textcolor{comment}{//\ Memory\ of\ id-\/pointer\ mapping\ for\ all\ objects\ of\ this\ program}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Program_ad18f1e51efad67f4d553e1de3d5aea55}{Program}}(\textcolor{keywordtype}{string}\ pgm\_name);}
+\DoxyCodeLine{00057\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Program_a96682ca2803d6f070767e8449c64eeac}{Program}}();}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Program}{Program}}*\ \mbox{\hyperlink{classcfglib_1_1Program_a569f143e6a295fb89cb71bac966897f1}{Clone}}();}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Program_a91470a76911e981b750085ce19668c34}{\string~Program}}();}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{classcfglib_1_1Program_acc4f72ffe5f628e35b0f063d4c3f9e9d}{GetName}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Program_acfcd600e324f86042ce08d27ec506cc2}{SetName}}(\textcolor{keywordtype}{string}\ pgm\_name);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}*\ \mbox{\hyperlink{classcfglib_1_1Program_ae26ff36bba6446f54a293da178b27a4b}{CreateNewCfg}}(ListOfString\ \textcolor{keyword}{const}\ \&lnames);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}*\ \mbox{\hyperlink{classcfglib_1_1Program_acad02d69e0139c561d37d23ecc12e7f0}{CreateNewCfg}}(t\_address\ addr,\ ListOfString\ \textcolor{keyword}{const}\ \&lnames);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcfglib_1_1Program_a08aa67ec59bdbd28572dc222fdd2e3da}{SetEntryPoint}}(\textcolor{keywordtype}{string}\ entry\_point\_name);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Program_a9afd774f6cdaed6441b3ecd37887ecd3}{SetEntryPoint}}(\mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}*\ function);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}*\ \mbox{\hyperlink{classcfglib_1_1Program_a382ae7bf8bcc213cd20d764b6584e75f}{GetEntryPoint}}();}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{namespacecfglib_a6d40ca49d73d6bd01cf38af88645373a}{listOfCfg}}\ \mbox{\hyperlink{classcfglib_1_1Program_a12869527820e336393106010b15ac419}{GetAllCfgs}}()\ ;}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{comment}{/*\ Return\ the\ number\ of\ Cfgs\ */}}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classcfglib_1_1Program_abd621c3512b0affedf904d6acbe9941b}{GetNbCfgs}}()\ \{\ \textcolor{keywordflow}{return}\ cfgs\_list.size();\}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00097\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}*\ \mbox{\hyperlink{classcfglib_1_1Program_a52c24314bf6e4251196ac9807211253e}{GetCfgByName}}(std::string\ name);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}*\ \mbox{\hyperlink{classcfglib_1_1Program_a9abd2630802e8439a18869fe7a77f8d0}{GetCfgByAddress}}(t\_address\ addr);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00103\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Cfg}{Cfg}}*\ \mbox{\hyperlink{classcfglib_1_1Program_ada0f588497f4291bf50dead5f787086a}{GetCfgByNum}}(\textcolor{keywordtype}{int}\ index);}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{virtual}\ std::ostream\&\ \mbox{\hyperlink{classcfglib_1_1Program_a8e38cdef02a924f2c85ff0889e7706b8}{WriteXml}}(std::ostream\&\ os,\ \mbox{\hyperlink{classcfglib_1_1Handle}{Handle}}\&\ \mbox{\hyperlink{classcfglib_1_1Program_a13cc0a03cdf31ab9cfa9a0a7b0dff8ed}{hand}});}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Program_ad854304f1126c700757fb461a36c8cbd}{ReadXml}}(\mbox{\hyperlink{classXmlTag}{XmlTag}}\ \textcolor{keyword}{const}*\ tag,\ \mbox{\hyperlink{classcfglib_1_1Handle}{Handle}}\&\ \mbox{\hyperlink{classcfglib_1_1Program_a13cc0a03cdf31ab9cfa9a0a7b0dff8ed}{hand}});}
+\DoxyCodeLine{00110\ \ \ \ \ \ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classcfglib_1_1Program}{Program}}\ *\mbox{\hyperlink{classcfglib_1_1Program_ac144a242552df3c91099837072092103}{unserialise\_program\_file}}(std::string\ \textcolor{keyword}{const}\&\ file\_name)\ ;}
+\DoxyCodeLine{00116\ \ \ \ \ }
+\DoxyCodeLine{00118\ \ \ \ \ std::ostream\&\ \mbox{\hyperlink{classcfglib_1_1Program_aef1c0ddb8447ac68d36e2ca0ee8f4146}{serialise\_program}}(std::ostream\&\ os)\ ;}
+\DoxyCodeLine{00119\ \ \ \ \ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Program_a2eb2e99e2d6dfbb346e23bebba01d2b3}{serialise\_program}}(std::string\&\ file\_name)\ ;}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \}\ ;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \}\ \textcolor{comment}{//\ cfglib::}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_IRISA\_CFGLIB\_PROGRAM\_H}}
+
+\end{DoxyCode}

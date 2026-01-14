@@ -1,0 +1,50 @@
+
+/tmp/simple:     file format elf64-littleriscv
+
+SYMBOL TABLE:
+0000000000010078 l    d  .text	0000000000000000 .text
+0000000000000000 l    d  .comment	0000000000000000 .comment
+0000000000000000 l    d  .riscv.attributes	0000000000000000 .riscv.attributes
+0000000000000000 l    d  .debug_aranges	0000000000000000 .debug_aranges
+0000000000000000 l    d  .debug_info	0000000000000000 .debug_info
+0000000000000000 l    d  .debug_abbrev	0000000000000000 .debug_abbrev
+0000000000000000 l    d  .debug_line	0000000000000000 .debug_line
+0000000000000000 l    d  .debug_frame	0000000000000000 .debug_frame
+0000000000000000 l    d  .debug_str	0000000000000000 .debug_str
+0000000000000000 l    df *ABS*	0000000000000000 simple.c
+00000000000118d0 g       *ABS*	0000000000000000 __global_pointer$
+00000000000110d0 g       .text	0000000000000000 __SDATA_BEGIN__
+00000000000110d0 g       .text	0000000000000000 __BSS_END__
+00000000000110d0 g       .text	0000000000000000 __bss_start
+0000000000010078 g     F .text	0000000000000058 main
+00000000000110d0 g       .text	0000000000000000 __DATA_BEGIN__
+00000000000110d0 g       .text	0000000000000000 _edata
+00000000000110d0 g       .text	0000000000000000 _end
+
+
+
+Disassembly of section .text:
+
+0000000000010078 <main>:
+   10078:	ff010113          	addi	sp,sp,-16
+   1007c:	00c12703          	lw	a4,12(sp)
+   10080:	00070793          	mv	a5,a4
+   10084:	0027979b          	slliw	a5,a5,0x2
+   10088:	00e787bb          	addw	a5,a5,a4
+   1008c:	0017979b          	slliw	a5,a5,0x1
+   10090:	0007879b          	sext.w	a5,a5
+   10094:	00812703          	lw	a4,8(sp)
+   10098:	00f707bb          	addw	a5,a4,a5
+   1009c:	0007879b          	sext.w	a5,a5
+   100a0:	fff7879b          	addiw	a5,a5,-1
+   100a4:	00f12623          	sw	a5,12(sp)
+   100a8:	00012223          	sw	zero,4(sp)
+   100ac:	00812783          	lw	a5,8(sp)
+   100b0:	0017879b          	addiw	a5,a5,1
+   100b4:	00f12423          	sw	a5,8(sp)
+   100b8:	00c12783          	lw	a5,12(sp)
+   100bc:	fff7879b          	addiw	a5,a5,-1
+   100c0:	00f12623          	sw	a5,12(sp)
+   100c4:	00000013          	nop
+   100c8:	01010113          	addi	sp,sp,16
+   100cc:	00008067          	ret

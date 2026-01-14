@@ -1,0 +1,111 @@
+\doxysection{Non\+Serialisable\+Attributes.\+h}
+\hypertarget{NonSerialisableAttributes_8h_source}{}\label{NonSerialisableAttributes_8h_source}\index{include/NonSerialisableAttributes.h@{include/NonSerialisableAttributes.h}}
+\mbox{\hyperlink{NonSerialisableAttributes_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ IRISA,\ 2003-\/2017}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Heptane,\ a\ tool\ for\ Worst-\/Case\ Execution\ Time\ (WCET)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{estimation.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{APP\ deposit\ IDDN.FR.001.510039.000.S.P.2003.000.10600}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{Heptane\ is\ free\ software:\ you\ can\ redistribute\ it\ and/or\ modify}}
+\DoxyCodeLine{00010\ \textcolor{comment}{it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License\ as\ published\ by}}
+\DoxyCodeLine{00011\ \textcolor{comment}{the\ Free\ Software\ Foundation,\ either\ version\ 3\ of\ the\ License,\ or}}
+\DoxyCodeLine{00012\ \textcolor{comment}{(at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{Heptane\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00015\ \textcolor{comment}{but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00016\ \textcolor{comment}{MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00017\ \textcolor{comment}{GNU\ General\ Public\ License\ for\ more\ details\ (COPYING.txt).}}
+\DoxyCodeLine{00018\ \textcolor{comment}{}}
+\DoxyCodeLine{00019\ \textcolor{comment}{See\ CREDITS.txt\ for\ credits\ of\ authorship}}
+\DoxyCodeLine{00020\ \textcolor{comment}{}}
+\DoxyCodeLine{00021\ \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ \_IRISA\_CFGLIB\_UNSER\_ATTRIBUTES\_H}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ \_IRISA\_CFGLIB\_UNSER\_ATTRIBUTES\_H}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{comment}{/*\ \#includes\ and\ forward\ declarations.\ */}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Attributes_8h}{Attributes.h}}"{}}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{comment}{/*\ Debug\ of\ attribute\ management\ methods\ */}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ Uncomment\ one\ of\ these\ two\ lines\ to\ enter/leave\ debug\ mode}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ \#define\ dbg\_attr(x)\ x}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ dbg\_attr(x)}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecfglib}{cfglib}}\ }
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcfglib_1_1NonSerialisableAttribute}{NonSerialisableAttribute}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcfglib_1_1Attribute}{Attribute}}\{}
+\DoxyCodeLine{00045\ \ \ \};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00049\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcfglib_1_1NonSerialisableStringAttribute}{NonSerialisableStringAttribute}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableAttribute}{NonSerialisableAttribute}}\ \{}
+\DoxyCodeLine{00050\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00051\ \ \ \ \ std::string\ value;}
+\DoxyCodeLine{00052\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00054\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1NonSerialisableStringAttribute_a7f6f569a83349f8f41d187df56a43b65}{NonSerialisableStringAttribute}}(std::string\ \textcolor{keyword}{const}\&\ val)\{value=val;\};}
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1NonSerialisableStringAttribute_a1432b55b0449e2fd8bdb8d6d7232b056}{NonSerialisableStringAttribute}}()\ \{\};\ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableStringAttribute}{NonSerialisableStringAttribute}}*\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableStringAttribute_a4739267b6f967524a3defe319bd0f103}{clone}}()\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableStringAttribute_a1432b55b0449e2fd8bdb8d6d7232b056}{NonSerialisableStringAttribute}}(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00060\ \ \ \ \ \};}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableStringAttribute_aedeb7ccd57b84ed2e3bcfc464038682e}{Print}}(std::ostream\&s)\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ s\ <<\ \textcolor{stringliteral}{"{}(type=NonSerialisableString,name="{}}<<\mbox{\hyperlink{classcfglib_1_1Attribute_a9abcd440f01bbbc57fc64f274033cd22}{name}}<<\textcolor{stringliteral}{"{},value="{}}<<value<<\textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00064\ \ \ \ \ \};}
+\DoxyCodeLine{00066\ \ \ \ \ std::string\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableStringAttribute_a3fb5338650a4569eb9b22b5419c9b6b5}{GetValue}}()\ \{\textcolor{keywordflow}{return}\ value;\}}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableStringAttribute_a708afb5de2e1139c2119589c3e8bd434}{SetValue}}(std::string\ val)\ \{value\ =\ val;\};}
+\DoxyCodeLine{00069\ \ \ \}\ ;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00073\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcfglib_1_1NonSerialisableIntegerAttribute}{NonSerialisableIntegerAttribute}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableAttribute}{NonSerialisableAttribute}}\ \{}
+\DoxyCodeLine{00074\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{int}\ value;}
+\DoxyCodeLine{00076\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1NonSerialisableIntegerAttribute_a3500f80644bc62dcb3f4fcdaa47b5cc5}{NonSerialisableIntegerAttribute}}(\textcolor{keywordtype}{int}\ val)\{value=val;\};}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1NonSerialisableIntegerAttribute_a8242a4ef17361a5de82ed15130a78487}{NonSerialisableIntegerAttribute}}()\ \{\};}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableIntegerAttribute}{NonSerialisableIntegerAttribute}}*\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableIntegerAttribute_ae42a93cec36bea3940c62ecfb38b26ed}{clone}}()\ \ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableIntegerAttribute_a8242a4ef17361a5de82ed15130a78487}{NonSerialisableIntegerAttribute}}(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00084\ \ \ \ \ \};}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableIntegerAttribute_ade6c5738723b606295a2cf14fe568247}{Print}}(std::ostream\&s)\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ s\ <<\ \textcolor{stringliteral}{"{}(type=NonSerialisableInteger,name="{}}<<\mbox{\hyperlink{classcfglib_1_1Attribute_a9abcd440f01bbbc57fc64f274033cd22}{name}}<<\textcolor{stringliteral}{"{},value="{}}<<value<<\textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00088\ \ \ \ \ \};}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableIntegerAttribute_aeb200350a5746f7fe535ca4db1642e9d}{GetValue}}()\ \{\textcolor{keywordflow}{return}\ value;\}}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableIntegerAttribute_a7bff73325941157e314046c31f266d2a}{SetValue}}(\textcolor{keywordtype}{int}\ v)\ \{value\ =\ v;\};}
+\DoxyCodeLine{00093\ \ \ \}\ ;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00097\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcfglib_1_1NonSerialisableFloatAttribute}{NonSerialisableFloatAttribute}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableAttribute}{NonSerialisableAttribute}}\ \{}
+\DoxyCodeLine{00098\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordtype}{float}\ value;}
+\DoxyCodeLine{00100\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1NonSerialisableFloatAttribute_a9f997d517dd321ec532c21c60a820d52}{NonSerialisableFloatAttribute}}(\textcolor{keywordtype}{float}\ val)\{value=val;\};}
+\DoxyCodeLine{00104\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1NonSerialisableFloatAttribute_a9dc9a9a6554ae4cb56337caba4db7ff8}{NonSerialisableFloatAttribute}}()\ \{\};}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableFloatAttribute}{NonSerialisableFloatAttribute}}*\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableFloatAttribute_ab564f326a30c0e59482693941f8aba60}{clone}}()\ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableFloatAttribute_a9dc9a9a6554ae4cb56337caba4db7ff8}{NonSerialisableFloatAttribute}}(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00108\ \ \ \ \ \};}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableFloatAttribute_a507fc8e93b9ff7c56d483f2e51634e67}{Print}}(std::ostream\&s)\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ s\ <<\ \textcolor{stringliteral}{"{}(type=NonSerialisableFloat,name="{}}<<\mbox{\hyperlink{classcfglib_1_1Attribute_a9abcd440f01bbbc57fc64f274033cd22}{name}}<<\textcolor{stringliteral}{"{},value="{}}<<value<<\textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00112\ \ \ \ \ \};}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableFloatAttribute_a4d2bc3d3ab44c4f8e05c6c0c6f3dfc4a}{GetValue}}()\ \{\textcolor{keywordflow}{return}\ value;\}}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableFloatAttribute_a68b000967be65bfa02626352476ca64e}{SetValue}}(\textcolor{keywordtype}{float}\ v)\ \{value\ =\ v;\};}
+\DoxyCodeLine{00117\ \ \ \}\ ;}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00121\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcfglib_1_1NonSerialisableUnsignedLongAttribute}{NonSerialisableUnsignedLongAttribute}}:\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableAttribute}{NonSerialisableAttribute}}\ \{}
+\DoxyCodeLine{00122\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ value;}
+\DoxyCodeLine{00124\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1NonSerialisableUnsignedLongAttribute_a898beaee191d410f062ff7b839a51039}{NonSerialisableUnsignedLongAttribute}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ val)\ \{value=val;\};\ \ }
+\DoxyCodeLine{00128\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1NonSerialisableUnsignedLongAttribute_ae083d3614a66047ab325a009a7db88a5}{NonSerialisableUnsignedLongAttribute}}()\ \{\};}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableUnsignedLongAttribute}{NonSerialisableUnsignedLongAttribute}}*\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableUnsignedLongAttribute_a4d80c460a1a13ea49cd8b95ba67cbb2e}{clone}}()\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableUnsignedLongAttribute_ae083d3614a66047ab325a009a7db88a5}{NonSerialisableUnsignedLongAttribute}}(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00132\ \ \ \ \ \};}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableUnsignedLongAttribute_aef0e4a5bc60b6d4f278ab2daa553f598}{Print}}(std::ostream\&s)\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ s\ <<\ \textcolor{stringliteral}{"{}(type=NonSerialisableUnsignedLong,name="{}}<<\mbox{\hyperlink{classcfglib_1_1Attribute_a9abcd440f01bbbc57fc64f274033cd22}{name}}<<\textcolor{stringliteral}{"{},value="{}}<<value<<\textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00136\ \ \ \ \ \};}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableUnsignedLongAttribute_aedeced928ce8d3de8b0a691371b6aded}{GetValue}}()\ \{\textcolor{keywordflow}{return}\ value;\}}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1NonSerialisableUnsignedLongAttribute_aea6d8fd0b4f145dc69d54f21d95f09cc}{SetValue}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ v)\ \{value\ =\ v;\};}
+\DoxyCodeLine{00141\ \ \ \}\ ;}
+\DoxyCodeLine{00142\ \}\ \textcolor{comment}{//\ cfglib::}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_IRISA\_CFGLIB\_UNSER\_ATTRIBUTES\_H}}
+
+\end{DoxyCode}

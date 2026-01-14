@@ -1,0 +1,90 @@
+\doxysection{Loop.\+h}
+\hypertarget{Loop_8h_source}{}\label{Loop_8h_source}\index{include/Loop.h@{include/Loop.h}}
+\mbox{\hyperlink{Loop_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ \ \ Copyright\ IRISA,\ 2003-\/2017}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ \ \ This\ file\ is\ part\ of\ Heptane,\ a\ tool\ for\ Worst-\/Case\ Execution\ Time\ (WCET)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ \ estimation.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{\ \ \ APP\ deposit\ IDDN.FR.001.510039.000.S.P.2003.000.10600}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{\ \ \ Heptane\ is\ free\ software:\ you\ can\ redistribute\ it\ and/or\ modify}}
+\DoxyCodeLine{00010\ \textcolor{comment}{\ \ \ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License\ as\ published\ by}}
+\DoxyCodeLine{00011\ \textcolor{comment}{\ \ \ the\ Free\ Software\ Foundation,\ either\ version\ 3\ of\ the\ License,\ or}}
+\DoxyCodeLine{00012\ \textcolor{comment}{\ \ \ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ Heptane\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ \ but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ GNU\ General\ Public\ License\ for\ more\ details\ (COPYING.txt).}}
+\DoxyCodeLine{00018\ \textcolor{comment}{}}
+\DoxyCodeLine{00019\ \textcolor{comment}{\ \ \ See\ CREDITS.txt\ for\ credits\ of\ authorship}}
+\DoxyCodeLine{00020\ \textcolor{comment}{}}
+\DoxyCodeLine{00021\ \textcolor{comment}{\ \ \ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ \_IRISA\_CFGLIB\_LOOP\_H}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ \_IRISA\_CFGLIB\_LOOP\_H}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{comment}{/*\ \#includes\ and\ forward\ declarations\ */}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Attributed_8h}{Attributed.h}}"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{CloneHandle_8h}{CloneHandle.h}}"{}}}
+\DoxyCodeLine{00031\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecfglib}{cfglib}}\ \{\ \ \ \ \textcolor{keyword}{class\ }Node\ ;\ \}}
+\DoxyCodeLine{00032\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecfglib}{cfglib}}\ \{\ \ \ \ \textcolor{keyword}{class\ }Edge\ ;\ \}}
+\DoxyCodeLine{00033\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecfglib}{cfglib}}\ \{\ \ \ \ \textcolor{keyword}{class\ }Handle\ ;\ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{/*\ Debug\ of\ loop\ management\ methods\ */}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ Uncomment\ one\ of\ these\ two\ lines\ to\ enter/leave\ debug\ mode}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ \#define\ dbg\_loop(x)\ x}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ dbg\_loop(x)}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00041\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecfglib}{cfglib}}\ }
+\DoxyCodeLine{00042\ \{}
+\DoxyCodeLine{00044\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcfglib_1_1Loop}{Loop}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classcfglib_1_1Attributed}{Attributed}}}
+\DoxyCodeLine{00045\ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00047\ \ \ \ \ std::vector<Node*>\ nodes\ ;}
+\DoxyCodeLine{00048\ \ \ \ \ std::vector<Edge*>\ backedges\ ;}
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ head\ ;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Loop_a14d3e2db416417b9a0debad435307fb6}{Loop}}()\ ;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00056\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Loop_a7ce83c4b6b9fca7d2c4c86dfce6f4197}{\string~Loop}}()\ ;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//TP}}
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Loop}{Loop}}*\ \mbox{\hyperlink{classcfglib_1_1Loop_aedb7371aa0f0b55996814ca608b28aca}{Clone}}(\mbox{\hyperlink{classcfglib_1_1CloneHandle}{CloneHandle}}\&);}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00063\ \ \ \ \ std::ostream\&\ \mbox{\hyperlink{classcfglib_1_1Loop_a7a64d5f9cdda71e80b3798c0f17ef237}{WriteXml}}(\ std::ostream\&\ os,\ \mbox{\hyperlink{classcfglib_1_1Handle}{Handle}}\&\ hand);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Loop_a9bca6f0b552a7863259d34611dff7b4a}{ReadXml}}(\ \mbox{\hyperlink{classXmlTag}{XmlTag}}\ \textcolor{keyword}{const}\ *tag,\ \mbox{\hyperlink{classcfglib_1_1Handle}{Handle}}\&\ hand)\ ;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Loop_ae6c9f22b961258f08b3f5e75629d0b1e}{AddNode}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*)\ ;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Loop_a2d327d15a95feaa19e09b83a1cf6a496}{AddBackedge}}(\mbox{\hyperlink{classcfglib_1_1Edge}{Edge}}*)\ ;}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ \mbox{\hyperlink{classcfglib_1_1Loop_a40546268dd442308d1b7b6378f925a5e}{GetHead}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcfglib_1_1Loop_acbe30a927df0b77ed4aed07cb1517ba4}{FindInLoop}}(\mbox{\hyperlink{classcfglib_1_1Node}{Node}}*\ node)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00090\ \ \ \ \ std::vector<Node*>\ \mbox{\hyperlink{classcfglib_1_1Loop_a44b72feb6f18b9777934624ae739a178}{GetAllNodes}}()\ \textcolor{keyword}{const}\ ;}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00096\ \ \ \ \ std::vector<Node*>\ \mbox{\hyperlink{classcfglib_1_1Loop_ac56a143e69c8ad93282a02eaa1c6f660}{GetAllNodesNotNested}}()\ \textcolor{keyword}{const}\ ;}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00099\ \ \ \ \ std::vector<Edge*>\ \mbox{\hyperlink{classcfglib_1_1Loop_aed2af25c5a0859663d71be2ac239f07c}{GetBackedges}}()\ \textcolor{keyword}{const}\ ;}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classcfglib_1_1Loop_a8deea5bb51a437e8417143e77ee435a7}{IsNestedIn}}(\mbox{\hyperlink{classcfglib_1_1Loop}{Loop}}\ *l)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{comment}{/*\ Peel\ one\ iteration\ off\ this\ loop.\ This\ method}}
+\DoxyCodeLine{00106\ \textcolor{comment}{\ \ \ \ \ \ \ only\ updates\ the\ CFG\ to\ reflect\ the\ new\ structure.}}
+\DoxyCodeLine{00107\ \textcolor{comment}{\ \ \ \ \ \ \ Instructions\ are\ NOT\ modified.\ */}}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Loop_a8df5fb64b7864ba46b405dd16385fb90}{Peel}}();}
+\DoxyCodeLine{00109\ \ \ \};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \}\ \textcolor{comment}{//\ cfglib::}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_IRISA\_CFGLIB\_LOOP\_H}}
+
+\end{DoxyCode}

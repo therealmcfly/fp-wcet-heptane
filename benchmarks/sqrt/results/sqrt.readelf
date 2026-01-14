@@ -1,0 +1,24 @@
+There are 15 section headers, starting at offset 0xa18:
+
+Section Headers:
+  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
+  [ 1] .text             PROGBITS        0000000000010078 000078 000170 00  AX  0   0  4
+  [ 2] .rodata           PROGBITS        00000000000101e8 0001e8 000014 00   A  0   0  8
+  [ 3] .comment          PROGBITS        0000000000000000 0001fc 000011 01  MS  0   0  1
+  [ 4] .wcet_annot       PROGBITS        0000000000000000 00020d 00000c 00      0   0  1
+  [ 5] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 000219 000035 00      0   0  1
+  [ 6] .debug_aranges    PROGBITS        0000000000000000 00024e 000030 00      0   0  1
+  [ 7] .debug_info       PROGBITS        0000000000000000 00027e 000115 00      0   0  1
+  [ 8] .debug_abbrev     PROGBITS        0000000000000000 000393 0000b3 00      0   0  1
+  [ 9] .debug_line       PROGBITS        0000000000000000 000446 00014d 00      0   0  1
+  [10] .debug_frame      PROGBITS        0000000000000000 000598 000080 00      0   0  8
+  [11] .debug_str        PROGBITS        0000000000000000 000618 0000c5 01  MS  0   0  1
+  [12] .symtab           SYMTAB          0000000000000000 0006e0 000228 18     13  13  8
+  [13] .strtab           STRTAB          0000000000000000 000908 000072 00      0   0  1
+  [14] .shstrtab         STRTAB          0000000000000000 00097a 00009d 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  p (processor specific)

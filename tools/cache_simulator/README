@@ -1,0 +1,10 @@
+Cache simulator is a two-level non-inclusive instruction cache simulator.
+
+Files where the cache is defined and used: simul/main.cc, simul/icache.cc and simul/mmu.cc. 
+
+
+To use it, add a reference to the script.ld script in the configExtract.xml. For example:
+
+     <LINKER NAME="XXX/heptane/CROSS_COMPILERS/MIPS/bin/mips-ld" OPT="" 
+      SCRIPT="XXX/heptane/tools/cache_simulator/script.ld"
+      />

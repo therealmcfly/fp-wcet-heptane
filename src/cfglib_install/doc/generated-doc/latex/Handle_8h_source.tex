@@ -1,0 +1,68 @@
+\doxysection{Handle.\+h}
+\hypertarget{Handle_8h_source}{}\label{Handle_8h_source}\index{include/Handle.h@{include/Handle.h}}
+\mbox{\hyperlink{Handle_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00002\ \textcolor{comment}{}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ IRISA,\ 2003-\/2017}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ file\ is\ part\ of\ Heptane,\ a\ tool\ for\ Worst-\/Case\ Execution\ Time\ (WCET)}}
+\DoxyCodeLine{00006\ \textcolor{comment}{estimation.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{APP\ deposit\ IDDN.FR.001.510039.000.S.P.2003.000.10600}}
+\DoxyCodeLine{00008\ \textcolor{comment}{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{Heptane\ is\ free\ software:\ you\ can\ redistribute\ it\ and/or\ modify}}
+\DoxyCodeLine{00010\ \textcolor{comment}{it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License\ as\ published\ by}}
+\DoxyCodeLine{00011\ \textcolor{comment}{the\ Free\ Software\ Foundation,\ either\ version\ 3\ of\ the\ License,\ or}}
+\DoxyCodeLine{00012\ \textcolor{comment}{(at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{Heptane\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00015\ \textcolor{comment}{but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00016\ \textcolor{comment}{MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00017\ \textcolor{comment}{GNU\ General\ Public\ License\ for\ more\ details\ (COPYING.txt).}}
+\DoxyCodeLine{00018\ \textcolor{comment}{}}
+\DoxyCodeLine{00019\ \textcolor{comment}{See\ CREDITS.txt\ for\ credits\ of\ authorship}}
+\DoxyCodeLine{00020\ \textcolor{comment}{}}
+\DoxyCodeLine{00021\ \textcolor{comment}{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ */}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ \_IRISA\_CFGLIB\_HANDLE\_H}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ \_IRISA\_CFGLIB\_HANDLE\_H}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <set>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Factory_8h}{Factory.h}}"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Serialisable_8h}{Serialisable.h}}"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespacecfglib}{cfglib}}\ }
+\DoxyCodeLine{00035\ \{}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classcfglib_1_1Handle}{Handle}}\ \{}
+\DoxyCodeLine{00040\ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00045\ \ \ \ \ std::map<std::string,\ Serialisable*>\ id\_serialisable;}
+\DoxyCodeLine{00047\ \ \ \ \ std::map<std::string,std::set<Serialisable**>\ >\ id\_handle;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00050\ \ \ \ \ std::map<Serialisable\ const*,\ int>\ identifiers\ ;}
+\DoxyCodeLine{00051\ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{classcfglib_1_1Handle_a98f8601f6e1dd65a9f9ba0e29254c1ce}{Handle}}()\ ;}
+\DoxyCodeLine{00054\ \ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{comment}{//void\ decl\_node\_handle(Node*\&,\ std::string\ const\&\ id);}}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Handle_ab8a43d033b2fe3a68aecf4dbee61dba2}{addID\_handle}}(std::string\ \textcolor{keyword}{const}\&\ \textcolor{keywordtype}{id},\mbox{\hyperlink{classcfglib_1_1Serialisable}{Serialisable}}**\ ptr);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{comment}{//void\ decl\_node\_object(Node*,\ std::string\ const\&);}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Handle_ad50bcb573b09ca46cccd3ac988a653d0}{addID\_serialisable}}(std::string\ \textcolor{keyword}{const}\&\ ,\ \mbox{\hyperlink{classcfglib_1_1Serialisable}{Serialisable}}*);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00074\ \ \ \ \ std::string\ \mbox{\hyperlink{classcfglib_1_1Handle_afdd041bbbaea61823ad61918ceaad330}{identify}}(\mbox{\hyperlink{classcfglib_1_1Serialisable}{Serialisable}}\ \textcolor{keyword}{const}*\ obj);}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classcfglib_1_1Handle_a8f524a2c4b97e7e3dda8aaa0d6dcd577}{resolveHandles}}();}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ std::string\ \mbox{\hyperlink{classcfglib_1_1Handle_a90922bce066e04b5d46df9d29b641840}{getId}}(\mbox{\hyperlink{classcfglib_1_1Serialisable}{Serialisable}}\ \textcolor{keyword}{const}*\ obj);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \}\ ;}
+\DoxyCodeLine{00085\ \ \ }
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \}\ \textcolor{comment}{//\ cfglib::}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_IRISA\_CFGLIB\_HANDLE\_H}}
+
+\end{DoxyCode}

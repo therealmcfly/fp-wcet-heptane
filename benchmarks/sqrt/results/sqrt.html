@@ -1,0 +1,207 @@
+<html>
+<head>
+<title></title>
+</head>
+<body>
+<h1>/home/eugene/heptane-master/benchmarks/sqrt/sqrt.c</h1> <br>
+<table border=0 cellpadding=0 cellspacing=0>
+<tr><td><h2>Frequency</h2></td><th><h2>Source</h2></th></tr><tr><td> 0</td>
+<td><tt><pre>/* MDH WCET BENCHMARK SUITE. File version $Id: sqrt.c,v 1.1.1.1 2007-12-11 15:22:56 puaut Exp $ */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*************************************************************************/</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*   SNU-RT Benchmark Suite for Worst Case Timing Analysis               */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*   =====================================================               */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                              Collected and Modified by S.-S. Lim      */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                           sslim@archi.snu.ac.kr       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                         Real-Time Research Group      */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                        Seoul National University      */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*        < Features > - restrictions for our experimental environment   */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*          1. Completely structured.                                    */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*               - There are no unconditional jumps.                     */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*               - There are no exit from loop bodies.                   */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                 (There are no 'break' or 'return' in loop bodies)     */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*          2. No 'switch' statements.                                   */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*          3. No 'do..while' statements.                                */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*          4. Expressions are restricted.                               */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*               - There are no multiple expressions joined by 'or',     */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                'and' operations.                                      */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*          5. No library calls.                                         */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*               - All the functions needed are implemented in the       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                 source file.                                          */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*************************************************************************/</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*  FILE: my_sqrt.c                                                         */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*  SOURCE : Public Domain Code                                          */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*  DESCRIPTION :                                                        */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*     Square root function implemented by Taylor series.                */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*  REMARK :                                                             */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*  EXECUTION TIME :                                                     */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*                                                                       */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/*************************************************************************/</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>#include <annot.h></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>/* Changes: Indented program. Added a main program. Changed fabs and my_sqrt to fabs and my_sqrt.</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre> */</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>float           my_fabs(float x);</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>float           my_sqrt(float val);</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>float </pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>my_fabs(float x)</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>{</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>	if (x < 0)</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>		return -x;</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>	else</pre></tt></td></tr>
+<tr> <td>0 </td>
+<td><tt><pre>		return x;</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>}</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>float </pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>my_sqrt(float val)</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>{</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>	float           x = val / 10;</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>	float           dx;</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>	double          diff;</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>	double          min_tol = 0.00001;</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>	int             i, flag;</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>	flag = 0;</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>	if (val == 0)</pre></tt></td></tr>
+<tr> <td>0 </td>
+<td><tt><pre>		x = 0;</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>	else {</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 19 20 </td>
+<td><tt><pre>		for (i = 1; i < 20; i++) {</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>		  ANNOT_MAXITER(19);</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>		  if (!flag) {</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>		    dx = (val - (x * x)) / (2.0 * x);</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>		    x = x + dx;</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>		    diff = val - (x * x);</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>		    if (my_fabs(diff) <= min_tol)</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>19 </td>
+<td><tt><pre>		      flag = 1;</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>		  } else</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>		    x = x;</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>		}</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>	}</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>	return (x);</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>}</pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre></pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>int </pre></tt></td></tr>
+<tr><td> 0</td>
+<td><tt><pre>main(void)</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>{</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>	my_sqrt(19.5);</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>	return 0;</pre></tt></td></tr>
+<tr bgcolor="lightgreen"> <td>1 </td>
+<td><tt><pre>}</pre></tt></td></tr>
+</table>
+</body> </html>

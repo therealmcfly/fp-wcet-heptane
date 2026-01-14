@@ -1,0 +1,191 @@
+
+/tmp/pm:     file format elf32-littleriscv
+
+SYMBOL TABLE:
+00010074 l    d  .text	00000000 .text
+000112cc l    d  .sdata	00000000 .sdata
+000112d0 l    d  .sbss	00000000 .sbss
+000112ec l    d  .bss	00000000 .bss
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .wcet_annot	00000000 .wcet_annot
+00000000 l    d  .switch_begin	00000000 .switch_begin
+00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
+00000000 l    df *ABS*	00000000 pm.c
+00011acc g       *ABS*	00000000 __global_pointer$
+000112ec g     O .bss	000000c8 snapshot_buff
+000113b4 g     O .bss	00000004 detection_threshold
+000112cc g       .sdata	00000000 __SDATA_BEGIN__
+000113b8 g     O .bss	000000c8 sig_buff
+000112e8 g     O .sbss	00000004 lowest_slope_count
+000112d0 g     O .sbss	00000004 state
+000112cc g     O .sdata	00000004 sig_idx
+000112d8 g     O .sbss	00000004 lri_counter
+000112e4 g     O .sbss	00000004 lowest_slope_sum
+000112d4 g     O .sbss	00000004 time_counter
+00011480 g       .bss	00000000 __BSS_END__
+00010074 g     F .text	0000003c detect_activation
+000112d0 g       .sbss	00000000 __bss_start
+000100b0 g     F .text	0000021c main
+000112e0 g     O .sbss	00000004 activation_flag
+000112cc g       .sdata	00000000 __DATA_BEGIN__
+000112d0 g       .sdata	00000000 _edata
+00011480 g       .bss	00000000 _end
+000112dc g     O .sbss	00000004 gri_counter
+
+
+
+Disassembly of section .text:
+
+00010074 <detect_activation>:
+   10074:	fe010113          	addi	sp,sp,-32
+   10078:	00812e23          	sw	s0,28(sp)
+   1007c:	02010413          	addi	s0,sp,32
+   10080:	fea42623          	sw	a0,-20(s0)
+   10084:	8e81a783          	lw	a5,-1816(gp) # 113b4 <detection_threshold>
+   10088:	fec42703          	lw	a4,-20(s0)
+   1008c:	00f75863          	bge	a4,a5,1009c <detect_activation+0x28>
+   10090:	00100713          	li	a4,1
+   10094:	80e1aa23          	sw	a4,-2028(gp) # 112e0 <activation_flag>
+   10098:	0080006f          	j	100a0 <detect_activation+0x2c>
+   1009c:	8001aa23          	sw	zero,-2028(gp) # 112e0 <activation_flag>
+   100a0:	00000013          	nop
+   100a4:	01c12403          	lw	s0,28(sp)
+   100a8:	02010113          	addi	sp,sp,32
+   100ac:	00008067          	ret
+
+000100b0 <main>:
+   100b0:	fd010113          	addi	sp,sp,-48
+   100b4:	02112623          	sw	ra,44(sp)
+   100b8:	02812423          	sw	s0,40(sp)
+   100bc:	03010413          	addi	s0,sp,48
+   100c0:	fca42e23          	sw	a0,-36(s0)
+   100c4:	8ec18793          	addi	a5,gp,-1812 # 113b8 <sig_buff>
+   100c8:	0047a703          	lw	a4,4(a5)
+   100cc:	8ec18793          	addi	a5,gp,-1812 # 113b8 <sig_buff>
+   100d0:	0007a783          	lw	a5,0(a5)
+   100d4:	40f707b3          	sub	a5,a4,a5
+   100d8:	fef42623          	sw	a5,-20(s0)
+   100dc:	00200793          	li	a5,2
+   100e0:	fef42423          	sw	a5,-24(s0)
+   100e4:	0580006f          	j	1013c <main+0x8c>
+   100e8:	8ec18713          	addi	a4,gp,-1812 # 113b8 <sig_buff>
+   100ec:	fe842783          	lw	a5,-24(s0)
+   100f0:	00279793          	slli	a5,a5,0x2
+   100f4:	00f707b3          	add	a5,a4,a5
+   100f8:	0007a703          	lw	a4,0(a5)
+   100fc:	fe842783          	lw	a5,-24(s0)
+   10100:	fff78793          	addi	a5,a5,-1
+   10104:	8ec18693          	addi	a3,gp,-1812 # 113b8 <sig_buff>
+   10108:	00279793          	slli	a5,a5,0x2
+   1010c:	00f687b3          	add	a5,a3,a5
+   10110:	0007a783          	lw	a5,0(a5)
+   10114:	40f707b3          	sub	a5,a4,a5
+   10118:	fef42223          	sw	a5,-28(s0)
+   1011c:	fe442703          	lw	a4,-28(s0)
+   10120:	fec42783          	lw	a5,-20(s0)
+   10124:	00f75663          	bge	a4,a5,10130 <main+0x80>
+   10128:	fe442783          	lw	a5,-28(s0)
+   1012c:	fef42623          	sw	a5,-20(s0)
+   10130:	fe842783          	lw	a5,-24(s0)
+   10134:	00178793          	addi	a5,a5,1
+   10138:	fef42423          	sw	a5,-24(s0)
+   1013c:	fe842703          	lw	a4,-24(s0)
+   10140:	03100793          	li	a5,49
+   10144:	fae7d2e3          	bge	a5,a4,100e8 <main+0x38>
+   10148:	000117b7          	lui	a5,0x11
+   1014c:	2d07a783          	lw	a5,720(a5) # 112d0 <_edata>
+   10150:	00300713          	li	a4,3
+   10154:	0ee78063          	beq	a5,a4,10234 <main+0x184>
+   10158:	00300713          	li	a4,3
+   1015c:	10f76063          	bltu	a4,a5,1025c <main+0x1ac>
+   10160:	00200713          	li	a4,2
+   10164:	0ae78863          	beq	a5,a4,10214 <main+0x164>
+   10168:	00200713          	li	a4,2
+   1016c:	0ef76863          	bltu	a4,a5,1025c <main+0x1ac>
+   10170:	00078863          	beqz	a5,10180 <main+0xd0>
+   10174:	00100713          	li	a4,1
+   10178:	04e78a63          	beq	a5,a4,101cc <main+0x11c>
+   1017c:	0e00006f          	j	1025c <main+0x1ac>
+   10180:	8081a703          	lw	a4,-2040(gp) # 112d4 <time_counter>
+   10184:	000147b7          	lui	a5,0x14
+   10188:	02f75263          	bge	a4,a5,101ac <main+0xfc>
+   1018c:	8181a703          	lw	a4,-2024(gp) # 112e4 <lowest_slope_sum>
+   10190:	fec42783          	lw	a5,-20(s0)
+   10194:	00f70733          	add	a4,a4,a5
+   10198:	80e1ac23          	sw	a4,-2024(gp) # 112e4 <lowest_slope_sum>
+   1019c:	81c1a783          	lw	a5,-2020(gp) # 112e8 <lowest_slope_count>
+   101a0:	00178713          	addi	a4,a5,1 # 14001 <__global_pointer$+0x2535>
+   101a4:	80e1ae23          	sw	a4,-2020(gp) # 112e8 <lowest_slope_count>
+   101a8:	0d00006f          	j	10278 <main+0x1c8>
+   101ac:	8181a783          	lw	a5,-2024(gp) # 112e4 <lowest_slope_sum>
+   101b0:	40d7d713          	srai	a4,a5,0xd
+   101b4:	8ee1a423          	sw	a4,-1816(gp) # 113b4 <detection_threshold>
+   101b8:	8001a623          	sw	zero,-2036(gp) # 112d8 <lri_counter>
+   101bc:	000117b7          	lui	a5,0x11
+   101c0:	00100713          	li	a4,1
+   101c4:	2ce7a823          	sw	a4,720(a5) # 112d0 <_edata>
+   101c8:	0b00006f          	j	10278 <main+0x1c8>
+   101cc:	fec42503          	lw	a0,-20(s0)
+   101d0:	ea5ff0ef          	jal	ra,10074 <detect_activation>
+   101d4:	80c1a703          	lw	a4,-2036(gp) # 112d8 <lri_counter>
+   101d8:	000057b7          	lui	a5,0x5
+   101dc:	01478793          	addi	a5,a5,20 # 5014 <detect_activation-0xb060>
+   101e0:	02e7c263          	blt	a5,a4,10204 <main+0x154>
+   101e4:	8141a783          	lw	a5,-2028(gp) # 112e0 <activation_flag>
+   101e8:	06078e63          	beqz	a5,10264 <main+0x1b4>
+   101ec:	8001a623          	sw	zero,-2036(gp) # 112d8 <lri_counter>
+   101f0:	8001a823          	sw	zero,-2032(gp) # 112dc <gri_counter>
+   101f4:	000117b7          	lui	a5,0x11
+   101f8:	00200713          	li	a4,2
+   101fc:	2ce7a823          	sw	a4,720(a5) # 112d0 <_edata>
+   10200:	0640006f          	j	10264 <main+0x1b4>
+   10204:	000117b7          	lui	a5,0x11
+   10208:	00300713          	li	a4,3
+   1020c:	2ce7a823          	sw	a4,720(a5) # 112d0 <_edata>
+   10210:	0540006f          	j	10264 <main+0x1b4>
+   10214:	8101a703          	lw	a4,-2032(gp) # 112dc <gri_counter>
+   10218:	000037b7          	lui	a5,0x3
+   1021c:	ee078793          	addi	a5,a5,-288 # 2ee0 <detect_activation-0xd194>
+   10220:	04e7d663          	bge	a5,a4,1026c <main+0x1bc>
+   10224:	000117b7          	lui	a5,0x11
+   10228:	00100713          	li	a4,1
+   1022c:	2ce7a823          	sw	a4,720(a5) # 112d0 <_edata>
+   10230:	03c0006f          	j	1026c <main+0x1bc>
+   10234:	fec42503          	lw	a0,-20(s0)
+   10238:	e3dff0ef          	jal	ra,10074 <detect_activation>
+   1023c:	8141a783          	lw	a5,-2028(gp) # 112e0 <activation_flag>
+   10240:	02078a63          	beqz	a5,10274 <main+0x1c4>
+   10244:	8001a623          	sw	zero,-2036(gp) # 112d8 <lri_counter>
+   10248:	8001a823          	sw	zero,-2032(gp) # 112dc <gri_counter>
+   1024c:	000117b7          	lui	a5,0x11
+   10250:	00200713          	li	a4,2
+   10254:	2ce7a823          	sw	a4,720(a5) # 112d0 <_edata>
+   10258:	01c0006f          	j	10274 <main+0x1c4>
+   1025c:	00100793          	li	a5,1
+   10260:	0580006f          	j	102b8 <main+0x208>
+   10264:	00000013          	nop
+   10268:	0100006f          	j	10278 <main+0x1c8>
+   1026c:	00000013          	nop
+   10270:	0080006f          	j	10278 <main+0x1c8>
+   10274:	00000013          	nop
+   10278:	8081a783          	lw	a5,-2040(gp) # 112d4 <time_counter>
+   1027c:	00a78713          	addi	a4,a5,10
+   10280:	80e1a423          	sw	a4,-2040(gp) # 112d4 <time_counter>
+   10284:	80c1a783          	lw	a5,-2036(gp) # 112d8 <lri_counter>
+   10288:	00a78713          	addi	a4,a5,10
+   1028c:	80e1a623          	sw	a4,-2036(gp) # 112d8 <lri_counter>
+   10290:	8101a783          	lw	a5,-2032(gp) # 112dc <gri_counter>
+   10294:	00a78713          	addi	a4,a5,10
+   10298:	80e1a823          	sw	a4,-2032(gp) # 112dc <gri_counter>
+   1029c:	000117b7          	lui	a5,0x11
+   102a0:	2d07a703          	lw	a4,720(a5) # 112d0 <_edata>
+   102a4:	00300793          	li	a5,3
+   102a8:	00f71663          	bne	a4,a5,102b4 <main+0x204>
+   102ac:	00000793          	li	a5,0
+   102b0:	0080006f          	j	102b8 <main+0x208>
+   102b4:	00000793          	li	a5,0
+   102b8:	00078513          	mv	a0,a5
+   102bc:	02c12083          	lw	ra,44(sp)
+   102c0:	02812403          	lw	s0,40(sp)
+   102c4:	03010113          	addi	sp,sp,48
+   102c8:	00008067          	ret

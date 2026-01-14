@@ -1,0 +1,359 @@
+
+Octobre 2020: forge --> git
+              
+Tagger version forge:
+    svn copy svn+ssh://USERNAME@scm.gforge.inria.fr/svnroot/heptane/trunk svn+ssh://USERNAME@scm.gforge.inria.fr/svnroot/heptane/tags/Vi.j -m"MESSAGE"  
+    paramétrée par
+      * USERNAME,
+      * i.j donné par la définition de HEPTANE_VERSION, défini dans logger.h.
+      * MESSAGE
+
+Août 2015: 
+      Après discussions, notre cible matérielle Arm sera le petit robot Légo
+      Arm Nxt (première génération) qui a la bonne propriété d'avoir une architecture très simple.
+      Au niveau jeu d'instructions, c'est du Arm 7 (arm 32 bits), avec du thumb (mais on ne veut pas gérer
+      le thumb, on pourra toujours choisir les options de compil de manière à éviter).
+      Le modèle exact de processeur est un Atmel AT91SAM7S256.
+      Quelques ressources dessus :
+      http://nxtgcc.sourceforge.net/EMSOFT-2009-Mindstorms-Tutorial.pdf
+          (qui a permis d'identifier le modèle exact de processeur)
+      https://en.wikipedia.org/wiki/List_of_ARM_microarchitectures
+      http://www.atmel.com/devices/SAM7S256.aspx?tab=documents
+      http://www.atmel.com/Images/doc6175.pdf
+
+      Ce processeur n'a pas de cache (un peu moyen pour travailler sur des
+      analyses de caches dans le futur) mais les arm 7 qui en ont ont des caches
+      unifiés que qui nous arrange pas plus que ça,
+
+Actions to be done (date is insersion date):
+-------------------------------------------
+         * NE PAS FACTORISER DCACHEANALYSIS et ICACHEANALYSIS.
+         * export : conserver une information de version/forge.
+	 
+tester des do {  } while ();
+
+Oct 2016: [ L.Besnard ] Questions
+  * Validité des résultats ?  trouver un simulateur ARM open source
+  * Valeur du sp pour ARM dans le fichier configWCET_ARM.xml.template ( <DATAADDRESS keepresults="true" input_file ="" output_file ="" sp="7FFFE000"/>)
+
+2016 et avant...
+- Benchmarks: pb induits par limitation analyse adresses.
+  * analysis of tacle benches  (+ tard lié à analyse adresse, programme modifié cf matmult)
+  * adpcm: analyse d'adresse foire avec version récente de compilo
+  * compress : traquer le + 10 
+  * edn warning inserted by BL during the extraction in memcpy
+  * st  HeptaneExtract: code/libc/sys/syscalls.c:9:2: warning: #warning Syscall _times not implemented. [-Wcpp]
+  *  papabench needs to be recompiled
+  * task_of_debie needs to be recompiled
+  All these benchmarks are removed when packaging (tools/heptane-package.sh)
+
+
+Extensions : du plus léger au moins léger
+-----------------------------------------
+- WCET partiel (Rabab): wcet entre deux BB
+
+- ARM : Supprimer les redéfinitions de ARMLIB.h (calcul float/double) par ajout d'options de compilation: Voir les essais effectués sur le bench minver (voir le fichier configExtract.xml_SANS_ARMLIB.H).
+         Mettre les definitions de ARMLIB.h en commentaire avant le test.
+
+- ARM: .word, .word arm: dans le data cache.
+
+- ARM : load multiple, store multiple. ATTENTION, ACTUELLEMENT, LDM/STM SONT REMPLACÉS PAR LEUR EQUIVALENT EN LOAD/STORE SIMPLES. 
+        - Effets sur cacheInstruction : plusieurs acces pour une seule instruction.
+	- Effet sur le pipeline : idem
+	- Les instructions en question ont exactement la même adresse ( ).
+	- IPET et suite de la chaine d'analyses devrait être revu, car péssimisme.
+        Note ARM: ldm/stm 2+N tcycles ( N : nb registers, t time for a word for a sequential access). 
+	          Increase interrupt latency since it can't be interrupted.
+
+- analyse d'adresse à revoir: du polyedrique? annotation des accès?
+  Améliorer la gestion des pointeurs (passage de paramètres....)
+
+- Precision dans les data (le PS_Union_Must). un jour...
+
+- MEMO: adressinfoattribute : acces en pile contextuels, pas les autres =>
+  rendre tous les acces contextuels ?
+
+- Formulation IPET par niveau de boucle : un jour, ...
+
+CFG extraction
+--------------
+- ... un jour...  FAIT Oct 2017.
+  find a convenient annotation system for indirect jumps (eg switches).
+  Currently, the Cfg extractor detects those calculated jumps and exits.
+  This problem exists in lcdnum.c and cover.c, as well as 
+  in ColdLoopCommand.
+
+***********************************************************************
+  DONE
+***********************************************************************
+(since mid-september 2007) (non exhaustive, last changes first)
+NB: author given in case if bugs in the source code
+NB: modifications are in reverse chronological order
+
+-----------------------------------------------------------------------
+
+Oct 2020 : Résolution bug WCET affiché et WCET calculé (résultat converti en float et non en double).
+
+Oct 2020:  Résolution bug sur exemples avec des WCET spécifiés par l'utilisateur. 
+           Les solveurs (lp_solve et cplex)  retournent "This problem is unbounded".
+
+Sep/Oct 2020
+	Afin de permettre la manipulation le temps de calcul, la consommation d'énergie, ...
+	Ajout des fichiers de définitions des latences/Energie des instructions, dans le répertoire 
+        dont le nom est spécifié dans les fichiers template (défaut dans data de la racine de heptane).
+        Le fichier de data a pour nom <ARCH>Latency.data avec <ARCH> ::= MIPS | ARM | MSP430 | RISCV
+        
+Jan/Fev 2020: Prise en compte du RISCV.
+
+Dec 2019
+     - MSP430 revisité.
+       Code de Pieric Giraud enlevé car perfectDcache, perfectIcache permet de 
+       faire ce qu'il avait inséré. Ceci est géré dans le template src/templates/configWCET_MSP430.xml.template.
+       Ajout de la classe Int en tant que nouveau format ( InstructionFormat.*) car code modifié de MSP430 
+       produit " ret value" ou "ret".
+
+Sept 2019
+    - fusion branche MSP430 (Travaux Pieric Giraud)
+    - Ajout de la lecture de la variable shell HEPTANE_FORCE_MODE qui si elle est définie à TRUE ou true ou 1
+      permet de continuer certaines fonctionnalités (Codeline, HtmlPrint en particulier -- pour MSP430 -- ).
+    - ajout de l'option de compilation std=c++11 (stol,...), ceci pour corriger des ereurs de compilation en  en "Intégration continue".
+
+Mai 2018 
+   - Ajout coût des fréquences par contexte HTML (déja fait avant cette date), DOT.
+
+   - IPET et test de sortie multi-BB
+       Code actuel: borne tous les noeuds de la boucle sauf le noeud d'entree
+       Quand test multi-BB, un seul des BB du test est considéré comme test, et il existe des
+       noeuds du test considérés par erreur comme corps de boucle, et du coup l'indice de boucle est
+       sous-estimé de 1. 
+     Corrigé ( cf ajout methode BBLoopMustBeConstrained( ) dans IPETAnalysis.cc ).
+
+
+Avril/mai 2018
+    Intégration travaux de Benjamin Rouxel:
+        - ajout de l'annotation ANNOT_USER_WCET(value) associé à une fonction
+	  => attribut global ExternalWCETAttributeName.
+          => adaptation des traitements (DOT, HTML, IPET). 
+          *** A VALIDER par Isabelle/Damien***
+
+Sept-Oct 2017
+    Prise en compte des switchs. (module switchAnalisys.cc ajouté dans le composant HeptaneExtract).
+    Ajout d'une annotation (voir ci-dessous) qui permet de connaitre le bloc de début d'un switch.
+    Ensuite le cfg est modifié par ajout d'arcs induits par les sauts indirects. Les compilateurs
+    utilisent une table d'adresses (dans la zone .rodata pour MIPS, et un ensemble de .words pour ARM ).
+    Annotation : Dans les exemples, il faut 
+         - remplacer switch par SWITCH 
+	 - ou bien ajouter ANNOT_SWITCH(); avant le "switch".
+    Benchmark: le wcet des exemples cover, lcdnum est désormais produit.
+
+Juin-Sept 2017
+   * Amélioration de la gestion des pointeurs (passage de paramètres....).
+     A permis d'ajouter les exemples fdct, fir, lms (MIPS), prime au benchmark de Heptane.
+     A permis également de détecter une erreur d'adressage dans select.c.
+
+Mars 2017
+   * Extract : OUTPUTASM=YES => erreur . Fixed: suffix "salto" replaced by "s"
+   * Extract : <SOURCEFILE NAME="matmult.exe" TYPE="BINARY" => erreur  (dans ce cas il faut donner annot.xml obligatoirement)
+   * Modification dans l'anlyse d'addresses: construite sur une analyse dataflow (schéma similaire à l'analyse de cache indtrcution)
+   
+2017 Feb, [Loïc Besnard]
+   Adding the class DataFlowAnalysis (Generic directory), inherited in DCacheAnalysis and ICacheAnalysis classes
+       
+// Final version 1.0, now 2.0
+2017 Feb, [Loïc Besnard]
+   Adding an attribute for ARM implementation, called MetaInstruction.
+   It keeps the link to the original instruction, when it is rewritten (push, pop, multiple load/store).
+    Example : <INSTRUCTION  id="150"  asm_type="Code"  code="ldr r0, [sp]"  >
+	      <ATTRS_LIST>
+		<ATTR type="MetaInstruction" name="MetaInstruction">
+                <OBJDUMP_INSTR  vinstr="ldm sp, {r0, r1}"/>
+		</ATTR>
+                  ... 
+              </ATTRS_LIST>
+              </INSTRUCTION>
+
+2017 Jan, 2016 Dec [Loïc Besnard]
+     * Doxygen all code
+     * Cachestatistics :exports des infos si elles ont été calculées.
+     * Test de l'existence des attributs dans l'analyse IPET selon la méthode de calcul ( pipeline ou non, Cache instructions, cache données )
+     * Unicité des variables dans les déclarations pour les solveurs.
+     * Export heptane : les compilateurs croisés sont installés par défaut, et compilation de heptane en mode "no debug".
+     * Modifications des Methodes pour IPET avec restructuration du code (methodes + simplification du code):
+        METHOD_PIPELINE_ICACHE_DCACHE, 
+	METHOD_PIPELINE_ICACHE_PERFECTDCACHE,
+        METHOD_NOPIPELINE_ICACHE_DCACHE, 
+	METHOD_NOPIPELINE_ICACHE_PERFECTDCACHE, 
+	METHOD_NOPIPELINE_PERFECTICACHE_DCACHE,  
+	METHOD_NOPIPELINE_PERFECTICACHE_PERFECTDCACHE
+        IPET : Caches parfaits dans les data par défaut. Demande une classif de Dcache pas défaut (résolu cf ci-dessus).
+
+2016 Nov [Loïc Besnard]
+       * Gestion homogènes des contextes (IPET avait une gestion particuliere des contextes). Modifications induites dans les analyses postIPET.
+         (IPET resultat frequency_C0, frequency_C1 1 est le numéro du contexte).
+       * computeContext fait une fois pour un point d'entrée donné. Le computeContext nettoie les structures avant d'être recalculé 
+         pour un autre point d'entrée et les résultats précédents des analyses sont être également nettoyés.
+
+       * Suppression parametre "contextual" dans l'analyse IPET. Modifications dans Config et IPETAnalysis, AnalyseHelper.
+       * Bug MIPS (cf code Thomas, MIPS.cc gestion des cc): résolu.
+
+2016 Oct [Loïc Besnard]
+       * HeptaneAnalysis: intro de la directive "entrypointname"
+              <!-- Build the cfg of the input_file, compute the contexts and set the entry point to be analyzed -->
+	      <ENTRYPOINT keepresults="true" input_file ="X_BENCH.xml" output_file ="X_BENCH_main.xml " entrypointname="main"/>
+	     (induit le nettoyage des attributs partagés realisé avant le computecontext, méthode AnalysisHelper::removeContextualAttributes) 
+       * HeptaneAnalysis:  ajout option -t pour test (les infos de temps ne sont pas affichées).
+       * IPET: code de parsing de CPLEX à refaire (fuite mémoire libxml) => réécriture de la méthode CPLEXSolver::parse_output.
+       * IPET NO_CACHE_NOPIPELINE et contextuel bogue car context pas calculé avant. Le calcul des contextes effectué en début de la fonctionalité.
+       * computeContext doit être appelé en début de l'analyse de Pipeline.
+       * addr2line géré dans fichier config et il n'y a plus de référence à une variable d'environement.
+       * <MEMORY load_latency="xxx" store_latency="yyy"/>  la présence  est obligatoire sans contrainte sur les valeurs.
+       * Mail de Damien : 
+             Le nouveau stackpointer (MIPS), pour des pages de 8k:  sp="7FFFFE00" remplacé par sp="7FFFE000"
+
+2016:
+       * remove readelf from configuration file (make it systematic)
+       * check non contextual IPET (remove if still exists) - document more what happens in case of a perfect dcache
+       * update default configuration file (to avoid unrealistic values for people who never change the default file)
+
+2016
+  - Damien :
+     tester sur Linux
+     regarder un script maison de test : compil / run / mips pour integration continue
+     Integration continue : Inria a un serveur d'integration continue
+     https://ci.inria.fr (ci = continous integration) 
+
+2016 [ Loïc Besnard]
+     - Linux : plus de problèmes avec les cross compilateurs. 
+       Il sont conservés sur le site: http://www.irisa.fr/alf/downloads/heptane/CROSS_COMPILERS
+       et récupérés lors de l'installation (à la demande). Installation dans <HEPTANE_ROOT>/CROSS_COMPILERS, par exemple:
+                   ARM -> ARM_LINUX
+                   ARM_LINUX/...
+                   MIPS -> MIPS_LINUX
+                   MIPS_DAMIEN_LINUX_gcc4.5.1/
+                   MIPS_LINUX/...
+
+2015/2016 [Loïc Besnard]
+      Prise en compte du processeur ARM a induit la mise en place de l'infrastructure logicielle suivante:
+                             <- MIPS_XAnalysis
+      Analysis <- XAnalysis |
+                             <- ARM_XAnalysis
+        
+      Implementation de ARM pour les instructions non conditionnées (level -o0 du compilateur).
+      Restructuration de codes (voir par exemple DCacheAnalysis.cc) par utilisations de templates.
+
+2015  [Loïc Besnard] 
+      Mise en place de l'Integration continue.
+
+- June 2014 [Isabelle,Damien] machine-dependent stuff in ArchitectureDependent folder,
+  new cfg extractor that does not use Salto anymore
+
+- march 2014 [Isabelle] removed clearly useless stuff in analysis SimplePrint
+
+- march 2014 [Isabelle] put current architecture in the
+  extractor/analysis configuration files. The extractor/analyzer are
+  now compiled for all architectures. (The only residual dependency is
+  in the extractor, because Salto uses a different library per
+  architecture)
+
+- march 2014 [Isabelle] code refactoring to put all functions useful to many analyses as static methods in
+  a single file Generic/AnalysisHelper.h/cc. Removal of class WCETanalysis that was obsolete due to
+  the introduction of the configuration file
+
+- march 2014 [Isabelle]: added a working arm9 description + made sure CFG extraction+WCET analysis
+  work for some mdh benchmarks (pipeline analysis is fake but works correctly)
+
+- march 2014 [Isabelle]: changed dot printer to pdf (to avoid printing white-on-white)
+
+- february 2014 [Isabelle]: added some instructions in mips dependent
+  code for address analysis (instructions generated by llvm). These instructions
+  also have been added in the salto mips description file
+
+- GNUmakefile heptane: install removed
+
+- bench.xml added for working benchmark.
+
+- configExtract.xml_template: -I../ added in PREPROCESSOR OPT field to solve the annot.h issue
+
+- delete .svn when using packaging scripts
+  Done with svn export option
+
+- add$register (in mipsdependant.cc) better version coded 
+
+- code restructuring (Damien) + installation script (install.sh, at
+  the root of Heptane's package). Reflected the changes in the
+  documentation (Isabelle)
+
+- Modification in address analysis (code clarification + improved tightness for local variables)
+
+- Re-structures code of cacha analysis (mainly Damien)
+
+- Cache simulator runs on 64-bits architectures
+
+- unified caches removed from trunk -> unmaintained, idem for 
+  * bypass et SUAnalysis
+  * CacheHashMap
+  * CacheExternalInfo.*
+  * CRPD
+
+- Types of analyses to apply (must/may/persistence) integrated in configuration file (Isabelle)
+
+- Cache and memory parameters integrated in configuration file (Isabelle)
+
+- MemoryLoad/MemoryStore attributes default value set to  0
+
+- Packaging scripts (Salto and Heptane svn -> tar.gz)
+
+- Re-designed CacheStatistics class (Benjamin)
+
+- added support for k0 and mfc0 in archmips.md (Isabelle)
+
+- removed bypass and multi-core stuff from Heptane trunk (moved
+  to unmaintained)
+
+- removed duplicate AddressAttribute between CFGextract and WCETanalysis
+  (Isabelle, October 2012)
+
+- port of cache simulator to 64-bit architectures (Isabelle, October 2012)
+
+- configuration file + automatic execution of analyses from
+  configuration file (Isabelle, July 2012)
+
+- new annotations (in binary instead of asm)+ simplifications
+  in CFG extractor (Isabelle, July 2012)
+
+- Moved context generation outside of cache analysis
+  (Benjamin, 2011)
+
+- generation of constraints for CPLEX (Isabelle)
+
+- corrected bugs in loop detection (Benjamin)
+        for (i = 0 ; i < 10 ; i++ )
+        {
+          asm(".lflags loopbound 10");
+
+          if (a>=0) a = a+a;
+          else a = a-a;
+
+        }
+        b = a*a;
+  	(detects 2 loops)
+- contextual IPET (Isabelle) -> modifications on cache statistics and Html
+  printing
+- hierarchical cache analysis using abstract interpretation (Damien)
+- printing of node frequencies at source code level (html format) (Thomas)
+- More convenient makefiles
+- now correct generation of loop bound constraints
+- basic regression testing for the smallest benchmarks
+- unparsed objdump output to extract instruction addresses
+- WCET as a BigInteger
+- WCET attached to entrypoint
+- attached frequencies to nodes
+- parsed lp_solve output
+- prepared addition of CPLEX
+- removed memory leaks
+- corrected a bug in generation of call constraints
+- corrected equality function for random caches
+- re-tested my code on the up-to-date interface of pya2
+- added a Callgraph management library (CallGraph directory)
+- corrected a bug in CFG extraction (management of Call nodes)
+- moved extended CFG construction to class Analysis

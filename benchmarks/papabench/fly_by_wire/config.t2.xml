@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE CONFIGURATION SYSTEM "config.dtd"> 
+
+<CONFIGURATION>
+
+<!-- Compiler toolchain -->
+<!-- ****************** -->
+
+<!-- Preprocessor -->
+<PREPROCESSOR NAME="/Users/blesage/Utils/cross-tools/mips/bin/mips-cpp" OPT="-include ../../annot.h -I./code/include -I./code/src -I./code/lib/libm/common -I./code/lib/libc/include 
+	-D __AVR_ATmega8__ -DUBX"/>
+<!-- Compiler (options -c -S are automatically put to generate assembly code) -->
+<COMPILER NAME="/Users/blesage/Utils/cross-tools/mips/bin/mips-cc" OPT="-fomit-frame-pointer -fno-delayed-branch -Wno-attributes"/>
+<!--COMPILER NAME="/Users/blesage/Utils/cross-tools/mips/bin/mips-gcc" OPT="-fomit-frame-pointer -fno-delayed-branch -mno-shared -mno-local-sdata -mno-extern-sdata"/ -->
+<!-- Assembler -->
+<ASSEMBLER NAME="/Users/blesage/Utils/cross-tools/mips/bin/mips-as" OPT=""/>
+<!-- Linker (option -T script is automatically set when SCRIPT is specified) -->
+<LINKER NAME="/Users/blesage/Utils/cross-tools/mips/bin/mips-ld" OPT=" " SCRIPT=""/>
+<!-- Objdump (called with options -d -no-show-raw-insn) -->
+<OBJDUMP NAME="/Users/blesage/Utils/cross-tools/mips/bin/mips-objdump" OPT=""/>
+<!-- Readelf (called with option -S) -->
+<READELF NAME="/Users/blesage/Utils/cross-tools/mips/bin/mips-readelf" OPT=""/>
+
+<!-- Directories of inputs, temporaries and outputs (default values . /tmp and .) -->
+<!-- **************************************************************************** -->
+<INPUTDIR NAME="."/>
+<TMPDIR NAME="/tmp"/>
+<RESULTDIR NAME="."/>
+
+<!-- Configuration of the result files to generate -->
+<!-- ********************************************* -->
+
+<!-- Results for a program P are put in files P.s, P.exe, P.objdump, P.readelf, P.xml -->
+<!-- The annotation file name is the one given specified by ANNOTATIONFILE -->
+<OUTPUTASM VALUE="YES"/>
+<OUTPUTEXE VALUE="YES"/>
+<OUTPUTOBJDUMP VALUE="YES"/>
+<OUTPUTANNOT VALUE="NO"/>
+<OUTPUTREADELF VALUE="YES"/>
+<OUTPUTCFG VALUE="YES"/>
+<OUTPUTCODEADDRESS VALUE="YES"/>
+<!-- Program parameters -->
+<!-- ****************** -->
+
+<!-- NAME: program name, used as a file name prefix when generating outputs in RESULTDIR -->
+<!-- ANNOTATIONFILE: annotation file name (used as an input in INPUTDIR/ANNOTATIONFILE -->
+<!-- for defining loop bounds in a binary or as an output in RESULTDIR/ANNOTATIONFILE -->
+<!-- to produce annotations from C/ASM sources). -->
+
+<!-- SOURCEFILE NAME: source file name (merged with INPUTDIR to load file) -->
+<!-- SOURCEFILE TYPE: C/ASM/BINARY if a binary file is specified, there should be only 1 file -->
+
+<PROGRAM NAME = "fly_by_wire.t2" ENTRYPOINT = "send_data_to_autopilot_task" ANNOTATIONFILE = "fly_by_wire.t2.xml">
+	<SOURCEFILE NAME="code/src/main.c" TYPE="C" />
+	<SOURCEFILE NAME="code/src/ppm.c" TYPE="C" />
+	<SOURCEFILE NAME="code/src/servo.c" TYPE="C" />
+	<SOURCEFILE NAME="code/src/spi.c" TYPE="C" />
+	<SOURCEFILE NAME="code/src/uart.c" TYPE="C" />
+	<SOURCEFILE NAME="code/src/adc_fbw.c" TYPE="C" />
+
+</PROGRAM>
+
+</CONFIGURATION>
