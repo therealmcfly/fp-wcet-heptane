@@ -39,17 +39,18 @@ See CREDITS.txt for credits of authorship
 #include <map>
 #include <stdlib.h>
 
+#include "FileLoader.h"
 #include "arch.h"
 
 using namespace std;
 
-#define RISCV_ZERO_REGISTER 0
-#define RISCV_RA_REGISTER 1 /* return address */
-#define RISCV_SP_REGISTER 2
-#define RISCV_GP_REGISTER 3
-#define RISCV_AUX_REGISTER 64 /*  auxiliary register. */
+#define FLEXPRET_ZERO_REGISTER 0
+#define FLEXPRET_RA_REGISTER 1 /* return address */
+#define FLEXPRET_SP_REGISTER 2
+#define FLEXPRET_GP_REGISTER 3
+#define FLEXPRET_AUX_REGISTER 64 /*  auxiliary register. */
 
-#define RISCV_NB_REGISTERS 65
+#define FLEXPRET_NB_REGISTERS 65
 
 class FLEXPRET : public Arch_dep
 {
@@ -105,7 +106,7 @@ public:
 	vector<string> extractInputRegistersFromMem(const string &operand);
 
 	/*! Returns the names of the output registers present in operand */
-	// empty for RISCV
+	// empty for FLEXPRET
 	vector<string> extractOutputRegistersFromMem(const string &operand);
 
 	/*! Returns true if the instructions is a Load of multiple data */
@@ -133,50 +134,50 @@ public:
 	void parseSymbolTableLine(const string &line, ObjdumpSymbolTable &table);
 
 	/*! Returns a Word object containing all the useful information from instr */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	ObjdumpWord readWordInstruction(const ObjdumpInstruction &instr, ObjdumpSymbolTable &table);
 
 	/*! Returns true if the instruction has PC (program counter) in input registers */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	bool isPcInInputResources(const ObjdumpInstruction &instr);
 
 	/*! Returns true if the instruction has PC (program counter) in output registers */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	bool isPcInOutputResources(const ObjdumpInstruction &instr);
 
 	/*! Returns the .word used by a an instruction */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	vector<ObjdumpWord> getWordsFromInstr(const ObjdumpInstruction &instr1, const ObjdumpInstruction &instr2, vector<ObjdumpWord> words, bool &is_instr2_consumed);
 
 	/*! Returns true if the operand is an Input register which is written */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	bool isInputWrittenRegister(const string &operand);
 
 	/*! Returns the name of the register in an Input Written Register pattern */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	string extractRegisterFromInputWrittenOperand(const string &operand);
 
 	/*! Returns true if the operand is a register list */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	bool isRegisterList(const string &operand);
 
 	/*! Returns the name of the registers in the list */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	vector<string> extractRegistersFromRegisterList(const string &operand);
 
 	/*! Returns -1 */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	int getSizeRegisterList(const string &operand);
 
 	/*! Returns true if the operand is a shifter */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	bool isShifterOperand(const string &operand);
 
 	/*! Returns the name of the register which is used by the shifter (result can be empty) */
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 	string extractRegisterFromShifterOperand(const string &operand);
 
-	/*! NEVER used in RISCV */
+	/*! NEVER used in FLEXPRET */
 
 	bool getLoadStoreARMInfos(bool strongContext, string &instr, string &codeinstr, string &oregister, AddressingMode *vaddrmode, offsetType *TypeOperand, string &operand1, string &operand2, string &operand3);
 	bool isPcLoadInstruction(string &instr);
@@ -196,7 +197,14 @@ public:
 	void setMemoryLoadLatency(int val);
 	int getPipelineFlushCost() { return 0; };
 
+	// Add this helper for the DAA instructions to call
+	unsigned int getLatencyDataValue(const string &mnemonic)
+	{
+		return F->GetLatencyDataValue(mnemonic);
+	}
+
 private:
+	FileLoader *F;
 	// Architecture endianness
 	bool is_big_endian;
 
@@ -204,7 +212,7 @@ private:
 	/*! split the operands into a vector*/
 	vector<string> splitOperands(const string &operands);
 
-	/***** Specific functions for RISCV *****/
+	/***** Specific functions for FLEXPRET *****/
 
 	/*! Removes useless characters of an objdump line*/
 	string removeUselessCharacters(const string &line);

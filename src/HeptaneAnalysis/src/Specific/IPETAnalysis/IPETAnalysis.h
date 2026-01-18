@@ -1,24 +1,24 @@
 /* ---------------------------------------------------------------------
 
-   Copyright IRISA, 2003-2017
+	 Copyright IRISA, 2003-2017
 
-   This file is part of Heptane, a tool for Worst-Case Execution Time (WCET)
-   estimation.
-   APP deposit IDDN.FR.001.510039.000.S.P.2003.000.10600
+	 This file is part of Heptane, a tool for Worst-Case Execution Time (WCET)
+	 estimation.
+	 APP deposit IDDN.FR.001.510039.000.S.P.2003.000.10600
 
-   Heptane is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
+	 Heptane is free software: you can redistribute it and/or modify
+	 it under the terms of the GNU General Public License as published by
+	 the Free Software Foundation, either version 3 of the License, or
+	 (at your option) any later version.
 
-   Heptane is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details (COPYING.txt).
+	 Heptane is distributed in the hope that it will be useful,
+	 but WITHOUT ANY WARRANTY; without even the implied warranty of
+	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	 GNU General Public License for more details (COPYING.txt).
 
-   See CREDITS.txt for credits of authorship
+	 See CREDITS.txt for credits of authorship
 
-   ------------------------------------------------------------------------ */
+	 ------------------------------------------------------------------------ */
 
 #ifndef IPET_ANALYSIS_H
 #define IPET_ANALYSIS_H
@@ -29,10 +29,10 @@
 #include "Specific/IPETAnalysis/Solver.h"
 #include "SharedAttributes/SharedAttributes.h"
 
-typedef  vector< long >  VECTOR_WCET;
+typedef vector<long> VECTOR_WCET;
 
 /** Names of internal attributes used
-    -------------------------------- */
+		-------------------------------- */
 /** BB identifier (integer) attached to node */
 #define InternalAttributeId string("bb_id")
 /** WCET for first iteration of BB (integer) attached to nodes */
@@ -42,206 +42,203 @@ typedef  vector< long >  VECTOR_WCET;
 
 /** WCET computation step using Integer Linear Programming (ILP)
 
-    Different computations can be used to integrate the results of
-    cache analysis (parameter 'method' in constructor)
+		Different computations can be used to integrate the results of
+		cache analysis (parameter 'method' in constructor)
 
-    A more detailed description of the way constraints are generated
-    can be found in IPETAnalysis.cc and in the comments in the source
-    code
+		A more detailed description of the way constraints are generated
+		can be found in IPETAnalysis.cc and in the comments in the source
+		code
 
-    Companion class Solver implements the constraint solving system
-    (see Solver.h)
+		Companion class Solver implements the constraint solving system
+		(see Solver.h)
 */
-class IPETAnalysis:public Analysis
+class IPETAnalysis : public Analysis
 {
 
-  /** Method to parse lp_solve solver */
-  friend bool LpsolveSolver::parse_output (string file_name, string &);
-  friend bool CPLEXSolver::parse_output (string file_name, string &);
-  friend void Solver::setFrequencyAttribute(string VariableName, string freq);
+	/** Method to parse lp_solve solver */
+	friend bool LpsolveSolver::parse_output(string file_name, string &);
+	friend bool CPLEXSolver::parse_output(string file_name, string &);
+	friend void Solver::setFrequencyAttribute(string VariableName, string freq);
 
-  /** Map to store node_ids, used for naming variables in the ILP
-      system (numbers from 0 to number of BBs in the program) Avoids
-      the naming of variables in the ILP systems using the node pointer
-  */
-  map < string, Node * >node_ids;
+	/** Map to store node_ids, used for naming variables in the ILP
+			system (numbers from 0 to number of BBs in the program) Avoids
+			the naming of variables in the ILP systems using the node pointer
+	*/
+	map<string, Node *> node_ids;
 
-  /** Constraint generation method (METHOD_INSTR, METHOD_BB, METHOD_NOCACHE, see
-      more comments on the top of this file)
-  */
-  int method;
-  
-  /** File name of the file to contain the ILP system (generated randomly)
-      string fout; removed LBesnard */
+	/** Constraint generation method (METHOD_INSTR, METHOD_BB, METHOD_NOCACHE, see
+			more comments on the top of this file)
+	*/
+	int method;
 
-  /** Program call graph (built only to test if it is cyclic)
-      The analysis fails with a "false" error code when the call graph is cyclic*/
-  CallGraph *call_graph;
+	/** File name of the file to contain the ILP system (generated randomly)
+			string fout; removed LBesnard */
 
-  /** Used solver (lp_solve or CPLEX). Built in the constructor
-      depending on the value of parameter "used_solver"*/
-  Solver *solver;
+	/** Program call graph (built only to test if it is cyclic)
+			The analysis fails with a "false" error code when the call graph is cyclic*/
+	CallGraph *call_graph;
 
-  /** To determine which output of IPET should be attached to the CFG
-      - generate_wcet_information: attach the WCET to the CFG of the entry point (string type attribute)
-      - generate_node_frequencies: attach the frequency of execution to every basic block per context.
-  */
-  bool generate_wcet_information;
-  bool generate_node_frequencies;
-  
-  /** String name of the classification attributes for every data cache level. */
-  map < int, string > DataCHMC;
-  
-  /** String name of the classification attributes for every cache level */
-  map < int, string > CodeCHMC;
-  
-  /** String name of the accessed block count attributes for every cache level */
-  map < int, string > blockCountName;
-  
-  /** string name of the delta attribute*/
-  vector < string > deltaName;
-  
-  /** Access cost per cache level */
-  map < int, int > levelAccessCostInstr, levelAccessCostData;
-  
-  int NbICacheLevels, NbDCacheLevels, MemoryStoreLatency, MemoryLoadLatency, PerfectICacheLatency, PerfectDCacheLatency; ///< configuration parameters.
+	/** Used solver (lp_solve or CPLEX). Built in the constructor
+			depending on the value of parameter "used_solver"*/
+	Solver *solver;
 
- private:
-  bool BBLoopMustBeConstrained(Cfg * c, Node *node, Node *head, Loop*loop);
-  void printBasicBlockInfos( Node * n, string vtext);
-  void printIPETCommand();
-  /** Get the 4 deltas of an edge and put it in a integer vector, in the following order: FF, FN, NF, NN
-      These deltas are generated by the PipelineAnalysis to be used with METHOD_PIPELINE estimation method.
-  */
-  vector < int >getDeltas (Edge & e, string context);
+	/** To determine which output of IPET should be attached to the CFG
+			- generate_wcet_information: attach the WCET to the CFG of the entry point (string type attribute)
+			- generate_node_frequencies: attach the frequency of execution to every basic block per context.
+	*/
+	bool generate_wcet_information;
+	bool generate_node_frequencies;
 
-  bool ComputeInstrExecutionTime_NOPIPELINE_STORE_DCACHE(Instruction *vinstr, int *wcet_first, int *wcet_next );
-  void ComputeInstrExecutionTime_NOPIPELINE_PERFECTICACHE_DCACHE(Instruction *vinstr, Context * context, unsigned int frequency, int *wcet_first, int *wcet_next );
-  void ComputeInstrExecutionTime_NOPIPELINE_ICACHE_PERFECTDCACHE(Instruction *vinstr, Context * context, int *wcet_first, int *wcet_next );
-  void ComputeInstrExecutionTime_NOPIPELINE_ICACHE_DCACHE(Instruction *vinstr, Context * context, unsigned int frequency, int *wcet_first, int *wcet_next );
+	/** String name of the classification attributes for every data cache level. */
+	map<int, string> DataCHMC;
 
-  /** Check that cache classification attributes are present and correct
-      /(see comments in IPETanalysis.cc for naming conventions of attributes)*/
-  bool CheckCacheAttributes (Instruction * i, string attr_name);
-  
-  /** Update the different attributes for the next level (never_accessed_data, always_accessed_data).
-      @return the next value of occurrence_bound_data.  */
-  unsigned int DataCacheLevel_NextLevel(string classif, unsigned int memBlock, unsigned int frequency, bool * never_accessed_data, bool *always_accessed_data, unsigned int occurrence_bound_data );
- 
-  /** Count latencies (wcet_first, wcet_next when updateNext), according to the data access attributes ( never_accessed_data, always_accessed_data, occurrence_bound_data).*/
-  void DataCacheLevel_latency(int vCost, bool updateNext, int *wcet_first, int *wcet_next, bool never_accessed_data, bool always_accessed_data, unsigned int occurrence_bound_data);
+	/** String name of the classification attributes for every cache level */
+	map<int, string> CodeCHMC;
 
+	/** String name of the accessed block count attributes for every cache level */
+	map<int, string> blockCountName;
 
-  void ComputeNodeExecutionTime_DataCacheLevel(Instruction * vinstr, Context * context, int numCache, unsigned int frequency, int *wcet_first, int *wcet_next, 
-						bool *never_accessed_data, bool *always_accessed_data, unsigned int *occurrence_bound_data);
-  void ComputeNodeExecutionTime_InstructionCacheLevel(Instruction * vinstr, Context * context, int numCache, int *wcet_first, int *wcet_next,
-						      bool *countFirst, bool *countNext);
-  /** Compute the execution time of a block for its first and next iterations
-      Works in both a context independent and context-dependent manner
-      So far, this method considers the cache only (integration with pipeline analysis still to be done)
-      The method supports multiple cache levels.
-  */
-  void ComputeNodeExecutionTime_NOPIPELINE_CACHE(Node * n, Context * context, int *pwcet_first, int *pwcet_next, bool perfectIcache, bool perfectDcache);
-      
+	/** string name of the delta attribute*/
+	vector<string> deltaName;
 
-  /** Adds to edgeName the variable defined by "prefix + source_id + _ + target_id + _c + contextNum".*/
-  void AddILPVariable(string prefix, long source_id,long target_id, string vcontext,  vector < string > & edgeName);
-  /** Generate the variable name used by the ILP for an edge in the following order: FF, FN, NF, NN to be used with METHOD_PIPELINE estimation method. */
-  vector < string > generateEdgeVariableName (Edge & e, string vcontext);
+	/** Access cost per cache level */
+	map<int, int> levelAccessCostInstr, levelAccessCostData;
 
-  void ComputeNodesExecutionTime_NOPIPELINE_CACHE(vector < Node * >vn, const ContextList & contexts, bool perfectIcache, bool perfectDcache);
+	int NbICacheLevels, NbDCacheLevels, MemoryStoreLatency, MemoryLoadLatency, PerfectICacheLatency, PerfectDCacheLatency; ///< configuration parameters.
 
-  void generateConstraints_NOPIPELINE_CACHE( vector < Node * > vn, const ContextList &contexts, vector < string > &vid, VECTOR_WCET &vwcet);
+private:
+	bool BBLoopMustBeConstrained(Cfg *c, Node *node, Node *head, Loop *loop);
+	void printBasicBlockInfos(Node *n, string vtext);
+	void printIPETCommand();
+	/** Get the 4 deltas of an edge and put it in a integer vector, in the following order: FF, FN, NF, NN
+			These deltas are generated by the PipelineAnalysis to be used with METHOD_PIPELINE estimation method.
+	*/
+	vector<int> getDeltas(Edge &e, string context);
 
-  void ComputeNodesExecutionTime_NOPIPELINE_NOCACHE( vector < Node * > vn, const ContextList & contexts);
-  void generateConstraints_NOPIPELINE_NOCACHE(vector < Node * >vn, const ContextList & contexts, vector < string > &vid, VECTOR_WCET &vwcet);
+	bool ComputeInstrExecutionTime_NOPIPELINE_STORE_DCACHE(Instruction *vinstr, int *wcet_first, int *wcet_next);
+	void ComputeInstrExecutionTime_NOPIPELINE_PERFECTICACHE_DCACHE(Instruction *vinstr, Context *context, unsigned int frequency, int *wcet_first, int *wcet_next);
+	void ComputeInstrExecutionTime_NOPIPELINE_ICACHE_PERFECTDCACHE(Instruction *vinstr, Context *context, int *wcet_first, int *wcet_next);
+	void ComputeInstrExecutionTime_NOPIPELINE_ICACHE_DCACHE(Instruction *vinstr, Context *context, unsigned int frequency, int *wcet_first, int *wcet_next);
 
-  void generateConstraints_NOPIPELINE_ICACHE_DCACHE(ostringstream & os, Cfg * c, vector < Node * >&vn, const ContextList & contexts, vector < string > &vid, VECTOR_WCET &vwcet);
-  void generateConstraints_NOPIPELINE_ICACHE_PERFECTDCACHE(ostringstream & os, Cfg * c, vector < Node * >&vn, const ContextList & contexts, vector < string > &vid, VECTOR_WCET &vwcet);
-  void generateConstraints_NOPIPELINE_PERFECTICACHE_DCACHE(ostringstream & os, Cfg * c, vector < Node * >&vn, const ContextList & contexts, vector < string > &vid, VECTOR_WCET &vwcet);
-  void generateConstraints_NOPIPELINE_PERFECTICACHE_PERFECTDCACHE(ostringstream & os, Cfg * c, vector < Node * >&vn, const ContextList & contexts, vector < string > &vid, VECTOR_WCET &vwcet);
+	/** Check that cache classification attributes are present and correct
+			/(see comments in IPETanalysis.cc for naming conventions of attributes)*/
+	bool CheckCacheAttributes(Instruction *i, string attr_name);
 
-  void generateConstraints_inside_CACHE_BB( ostringstream & os, vector < Node * > vn , const ContextList &contexts);
+	/** Update the different attributes for the next level (never_accessed_data, always_accessed_data).
+			@return the next value of occurrence_bound_data.  */
+	unsigned int DataCacheLevel_NextLevel(string classif, unsigned int memBlock, unsigned int frequency, bool *never_accessed_data, bool *always_accessed_data, unsigned int occurrence_bound_data);
 
-  void generateConstraints_PIPELINE_ICACHE_DCACHE(ostringstream & os, Cfg * c, vector < Node * >&vn, vector < Edge * > &ve, const ContextList & contexts, vector < string > &vid, VECTOR_WCET &vwcet);
-  void generateConstraints_PIPELINE_ICACHE_PERFECTDCACHE(ostringstream & os, Cfg * c, vector < Node * >&vn, vector < Edge * > &ve, const ContextList & contexts, vector < string > &vid, VECTOR_WCET &vwcet);
-  void generateConstraints_PIPELINE_CACHE( Cfg * c, vector < Node * > vn, const ContextList &contexts, vector < string > &vid, VECTOR_WCET &vwcet);
-  void generateConstraints_PIPELINE_CACHE_edges(ostringstream & os, vector < Edge * > ve , const ContextList &contexts );
+	/** Count latencies (wcet_first, wcet_next when updateNext), according to the data access attributes ( never_accessed_data, always_accessed_data, occurrence_bound_data).*/
+	void DataCacheLevel_latency(int vCost, bool updateNext, int *wcet_first, int *wcet_next, bool never_accessed_data, bool always_accessed_data, unsigned int occurrence_bound_data);
 
-  void generateConstraints_IPET_selected_method(ostringstream & os, Cfg * c, vector < Node * >&vn, vector < Edge * > &ve, const ContextList & contexts, vector < string > &vid, VECTOR_WCET &vwcet);
+	void ComputeNodeExecutionTime_DataCacheLevel(Instruction *vinstr, Context *context, int numCache, unsigned int frequency, int *wcet_first, int *wcet_next,
+																							 bool *never_accessed_data, bool *always_accessed_data, unsigned int *occurrence_bound_data);
+	void ComputeNodeExecutionTime_InstructionCacheLevel(Instruction *vinstr, Context *context, int numCache, int *wcet_first, int *wcet_next,
+																											bool *countFirst, bool *countNext);
+	/** Compute the execution time of a block for its first and next iterations
+			Works in both a context independent and context-dependent manner
+			So far, this method considers the cache only (integration with pipeline analysis still to be done)
+			The method supports multiple cache levels.
+	*/
+	void ComputeNodeExecutionTime_NOPIPELINE_CACHE(Node *n, Context *context, int *pwcet_first, int *pwcet_next, bool perfectIcache, bool perfectDcache);
 
-  void generateConstraints_BB_edge_eachContext(Cfg * c, ostringstream & os, vector < Node * > vn, vector < Edge * > ve, const ContextList &contexts );
+	/** Adds to edgeName the variable defined by "prefix + source_id + _ + target_id + _c + contextNum".*/
+	void AddILPVariable(string prefix, long source_id, long target_id, string vcontext, vector<string> &edgeName);
+	/** Generate the variable name used by the ILP for an edge in the following order: FF, FN, NF, NN to be used with METHOD_PIPELINE estimation method. */
+	vector<string> generateEdgeVariableName(Edge &e, string vcontext);
 
-  vector < Node * > IsolatedNopNode( Cfg * c);
-  string mkVariableNameSolver(string prefix, Node * n, string vcontext );
-  string mkEdgeVariableNameSolver(string prefix, Node * source, Node * target, string vcontext );
+	void ComputeNodesExecutionTime_NOPIPELINE_CACHE(vector<Node *> vn, const ContextList &contexts, bool perfectIcache, bool perfectDcache);
 
-  /** 
-    Constraint for back edges of loops:
-    Generates for every loop node contraints of the form: f_node <= maxiter * sum(entry_edges)
+	void generateConstraints_NOPIPELINE_CACHE(vector<Node *> vn, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
 
-    Nodes belonging to subloops should not be considered, 
-    as well as the loop head (except if it is the only node in the loop)
-  */
-  void generateConstraints_back_edges_loops(Cfg * c, ostringstream & os, vector < Node * >vn, const ContextList &contexts );
+	void ComputeNodesExecutionTime_NOPIPELINE_NOCACHE(vector<Node *> vn, const ContextList &contexts);
+	void generateConstraints_NOPIPELINE_NOCACHE(vector<Node *> vn, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
 
-  /** 
-      Check all executed instructions have a cache classification 
-  */
-  bool CheckInputAttributesCacheClassification(Cfg * aCfg);
+	void generateConstraints_NOPIPELINE_ICACHE_DCACHE(ostringstream &os, Cfg *c, vector<Node *> &vn, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
+	void generateConstraints_NOPIPELINE_ICACHE_PERFECTDCACHE(ostringstream &os, Cfg *c, vector<Node *> &vn, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
+	void generateConstraints_NOPIPELINE_PERFECTICACHE_DCACHE(ostringstream &os, Cfg *c, vector<Node *> &vn, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
+	void generateConstraints_NOPIPELINE_PERFECTICACHE_PERFECTDCACHE(ostringstream &os, Cfg *c, vector<Node *> &vn, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
 
-  /** 
-      Check the pipeline timing provided by the pipelineAnalysis(nodes and edges)
-  */
-  bool CheckInputAttributesPipelineTiming(Cfg * aCfg);
+	void generateConstraints_inside_CACHE_BB(ostringstream &os, vector<Node *> vn, const ContextList &contexts);
 
-  int getIPETMethodToApply(bool pipeline, bool pIcache, bool pDcache);
+	void generateConstraints_PIPELINE_ICACHE_DCACHE(ostringstream &os, Cfg *c, vector<Node *> &vn, vector<Edge *> &ve, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
+	void generateConstraints_PIPELINE_ICACHE_PERFECTDCACHE(ostringstream &os, Cfg *c, vector<Node *> &vn, vector<Edge *> &ve, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
+	void generateConstraints_PIPELINE_CACHE(Cfg *c, vector<Node *> vn, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
+	void generateConstraints_PIPELINE_CACHE_edges(ostringstream &os, vector<Edge *> ve, const ContextList &contexts);
 
-  void generateConstraints_ExternalFunction(Cfg * c, const ContextList & contexts, vector < string > &vid, VECTOR_WCET &vwcet);
+	void generateConstraints_IPET_selected_method(ostringstream &os, Cfg *c, vector<Node *> &vn, vector<Edge *> &ve, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
 
-  bool isDeadCode(Cfg * cfg);
+	void generateConstraints_BB_edge_eachContext(Cfg *c, ostringstream &os, vector<Node *> vn, vector<Edge *> ve, const ContextList &contexts);
 
- public:
+	vector<Node *> IsolatedNopNode(Cfg *c);
+	string mkVariableNameSolver(string prefix, Node *n, string vcontext);
+	string mkEdgeVariableNameSolver(string prefix, Node *source, Node *target, string vcontext);
 
-  /** Constructor
-      - p: program whose WCET is to be computed
-      - method: WCET computation method (METHOD_INSTR, METHOD_BB, METHOD_NOCACHE)
-      - used_solver: used solver (LP_SOLVE or CPLEX)
-      - generate_wcet_info: true if WCET information is attached to the CFG of entry
-      - generate_node_freq: true if frequency information is attached to the nodes (one value per execution context) .
-  */
-  IPETAnalysis(Program * p, int used_solver, bool pipeline, bool generate_wcet_info, bool generate_node_freq, int nb_icache_levels, int nb_dcache_levels, 
-	       map < int, vector < CacheParam * > >&cache_params);
+	/**
+		Constraint for back edges of loops:
+		Generates for every loop node contraints of the form: f_node <= maxiter * sum(entry_edges)
 
-  /** Destructor, nothing very exciting in it. */
-  ~IPETAnalysis ()
-    {
-      delete call_graph;
-      delete solver;
-    };
-    
-  /** Check that all attributes required for IPET computations are
-      attached to the nodes/loops (see exhaustive list in the source code).
-  */
-  bool CheckInputAttributes ();
+		Nodes belonging to subloops should not be considered,
+		as well as the loop head (except if it is the only node in the loop)
+	*/
+	void generateConstraints_back_edges_loops(Cfg *c, ostringstream &os, vector<Node *> vn, const ContextList &contexts);
 
-  /** Generate caller/callee constraints */
-  void generateCallConstraints (ostringstream & os, Program * p);
+	/**
+			Check all executed instructions have a cache classification
+	*/
+	bool CheckInputAttributesCacheClassification(Cfg *aCfg);
 
-  /** Generate node ids */
-  bool generateNodeIds (ostringstream & os, Cfg * c);
-    
-  /** Generate structural and loop constraints */
-  bool generateConstraints (ostringstream & os, Cfg * c, vector < string > &vid, VECTOR_WCET  &vwcet);
-    
-  /** Perform the computation (generates constraints, calls the solver and attaches the results to the program CFG/BB) */
-  bool PerformAnalysis ();
+	/**
+			Check the pipeline timing provided by the pipelineAnalysis(nodes and edges)
+	*/
+	bool CheckInputAttributesPipelineTiming(Cfg *aCfg);
 
-  /** Remove all private attributes*/ 
-  void RemovePrivateAttributes ();
+	int getIPETMethodToApply(bool pipeline, bool pIcache, bool pDcache);
 
-  /** @return true if a context (c) is not on a reachable branch (ie no USER_WCET_ANNOT), false otherwise */
-  bool isReachableState( Context * c);
+	void generateConstraints_ExternalFunction(Cfg *c, const ContextList &contexts, vector<string> &vid, VECTOR_WCET &vwcet);
+
+	bool isDeadCode(Cfg *cfg);
+
+public:
+	/** Constructor
+			- p: program whose WCET is to be computed
+			- method: WCET computation method (METHOD_INSTR, METHOD_BB, METHOD_NOCACHE)
+			- used_solver: used solver (LP_SOLVE or CPLEX)
+			- generate_wcet_info: true if WCET information is attached to the CFG of entry
+			- generate_node_freq: true if frequency information is attached to the nodes (one value per execution context) .
+	*/
+	IPETAnalysis(Program *p, int used_solver, bool pipeline, bool generate_wcet_info, bool generate_node_freq, int nb_icache_levels, int nb_dcache_levels,
+							 map<int, vector<CacheParam *>> &cache_params);
+
+	/** Destructor, nothing very exciting in it. */
+	~IPETAnalysis()
+	{
+		delete call_graph;
+		delete solver;
+	};
+
+	/** Check that all attributes required for IPET computations are
+			attached to the nodes/loops (see exhaustive list in the source code).
+	*/
+	bool CheckInputAttributes();
+
+	/** Generate caller/callee constraints */
+	void generateCallConstraints(ostringstream &os, Program *p);
+
+	/** Generate node ids */
+	bool generateNodeIds(ostringstream &os, Cfg *c);
+
+	/** Generate structural and loop constraints */
+	bool generateConstraints(ostringstream &os, Cfg *c, vector<string> &vid, VECTOR_WCET &vwcet);
+
+	/** Perform the computation (generates constraints, calls the solver and attaches the results to the program CFG/BB) */
+	bool PerformAnalysis();
+
+	/** Remove all private attributes*/
+	void RemovePrivateAttributes();
+
+	/** @return true if a context (c) is not on a reachable branch (ie no USER_WCET_ANNOT), false otherwise */
+	bool isReachableState(Context *c);
 };
 
 #endif

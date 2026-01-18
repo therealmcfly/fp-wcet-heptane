@@ -1,6 +1,10 @@
 
 INCLS=-Isrc -I../utl/src
-OBJS=obj/arch.o obj/ARM.o obj/MSP430.o obj/DAAInstruction.o obj/DAAInstruction_MIPS.o obj/DAAInstruction_MSP430.o obj/DAAInstruction_ARM.o  obj/DAAInstruction_RISCV.o obj/InstructionFormat.o obj/InstructionType.o obj/MIPS.o obj/RISCV.o
+OBJS=obj/arch.o obj/ARM.o obj/MSP430.o obj/DAAInstruction.o \
+     obj/DAAInstruction_MIPS.o obj/DAAInstruction_MSP430.o obj/DAAInstruction_ARM.o \
+     obj/DAAInstruction_RISCV.o obj/DAAInstruction_FLEXPRET.o obj/InstructionFormat.o \
+     obj/InstructionType.o obj/MIPS.o obj/RISCV.o obj/FLEXPRET.o
+
 include ../makefile.common
 
 cleandoc:

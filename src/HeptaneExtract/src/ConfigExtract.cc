@@ -222,7 +222,7 @@ ConfigExtract::ConfigExtract(string filename, bool verbose)
       if (arch_endianness != "BIG" && arch_endianness != "LITTLE")
 	Logger::addFatal("ConfigExtract error: Unsupported endianness (should be BIG or LITTLE): " + arch_endianness);
       string arch_name = lt[0].getAttributeString("NAME");
-      if ((arch_name == "MIPS") || (arch_name == "ARM") || (arch_name == "MSP430")  || (arch_name == "RISCV")  )
+      if ((arch_name == "MIPS") || (arch_name == "ARM") || (arch_name == "MSP430")  || (arch_name == "RISCV")  || (arch_name == "FLEXPRET")  )
 	Arch::init(arch_name, arch_endianness == "BIG","%UNDEFINED%");
       else
 	Logger::addFatal("ConfigExtract error: Unsupported target architecture: " + arch_name);

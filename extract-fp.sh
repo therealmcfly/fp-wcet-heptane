@@ -102,7 +102,7 @@ if [ "$XARCH" = "MIPS" ] || [ "$XARCH" = "ARM" ] || [ "$XARCH" = "MSP430" ] || [
 then
     if [ -d "/home/eugene/heptane-master/CROSS_COMPILERS/$XARCH" ];then
 	cd ${RESULT_DIR}
-	\rm *.xml
+	\rm ${OUTPUTSUBDIR}/*.xml
         #configExtract.xml generation : _MPCU_ and _ISA_ are parameters of the MSP430 family.
 	sed -e "s#BENCH_DIR#${RESULT_DIR}#g" -e "s#X_BENCH#${BENCH}#g" -e "s#_ENTRY_POINT_#${ENTRYPOINT}#g" -e "s#_RESULTDIR_#${OUTPUTSUBDIR}#g" -e "s#_MCU_#${MCU}#g" -e "s#_ISA_#${ISA}#g" /home/eugene/heptane-master/config_files/configExtract_template_${XARCH}.xml >  ${OUTPUTSUBDIR}/configExtract.xml
 	chmod gou+x ${OUTPUTSUBDIR}/configExtract.xml

@@ -17,9 +17,11 @@ include ../makefile.common
 include makefile.depends
 
 
-$(vbin): $(ARCHDEP_DIR_OBJ)/MIPS.o $(ARCHDEP_DIR_OBJ)/ARM.o $(ARCHDEP_DIR_OBJ)/MSP430.o  $(ARCHDEP_DIR_OBJ)/RISCV.o $(ARCHDEP_DIR_OBJ)/arch.o $(ARCHDEP_DIR_OBJ)/InstructionFormat.o $(ARCHDEP_DIR_OBJ)/InstructionType.o \
-        $(ARCHDEP_DIR_OBJ)/DAAInstruction.o $(ARCHDEP_DIR_OBJ)/DAAInstruction_MIPS.o $(ARCHDEP_DIR_OBJ)/DAAInstruction_MSP430.o $(ARCHDEP_DIR_OBJ)/DAAInstruction_ARM.o $(ARCHDEP_DIR_OBJ)/DAAInstruction_RISCV.o \
-	$(OBJS)\
+$(vbin): $(ARCHDEP_DIR_OBJ)/MIPS.o $(ARCHDEP_DIR_OBJ)/ARM.o $(ARCHDEP_DIR_OBJ)/MSP430.o  \
+        $(ARCHDEP_DIR_OBJ)/RISCV.o $(ARCHDEP_DIR_OBJ)/FLEXPRET.o \
+        $(ARCHDEP_DIR_OBJ)/arch.o $(ARCHDEP_DIR_OBJ)/InstructionFormat.o $(ARCHDEP_DIR_OBJ)/InstructionType.o \
+        $(ARCHDEP_DIR_OBJ)/DAAInstruction.o $(ARCHDEP_DIR_OBJ)/DAAInstruction_MIPS.o $(ARCHDEP_DIR_OBJ)/DAAInstruction_MSP430.o $(ARCHDEP_DIR_OBJ)/DAAInstruction_ARM.o $(ARCHDEP_DIR_OBJ)/DAAInstruction_RISCV.o $(ARCHDEP_DIR_OBJ)/DAAInstruction_FLEXPRET.o \
+        $(OBJS)\
 	$(CFGLIB_DIR_OBJS)\
 	$(UTILITY_DIR_OBJ)/Logger.o $(UTILITY_DIR_OBJ)/Utl.o $(UTILITY_DIR_OBJ)/FileLoader.o  $(UTILITY_DIR_OBJ)/UtlCfgLib.o $(UTILITY_DIR_OBJ)/CallGraph.o \
         $(GLOB_ATTR_DIR_OBJ)/AddressAttribute.o $(GLOB_ATTR_DIR_OBJ)/LoopTree.o  $(GLOB_ATTR_DIR_OBJ)/SymbolTableAttribute.o $(GLOB_ATTR_DIR_OBJ)/ARMWordsAttribute.o $(GLOB_ATTR_DIR_OBJ)/MetaInstructionAttribute.o

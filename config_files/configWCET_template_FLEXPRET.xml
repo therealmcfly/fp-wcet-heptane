@@ -24,19 +24,23 @@
 <!-- Architecture description -->
 <ARCHITECTURE>
 
-<!-- Target type -->
-<TARGET NAME="RISCV" ENDIANNESS="LITTLE" DATAPATH="/home/eugene/heptane-master/data"/>
+	<!-- Target type -->
+	<TARGET NAME="FLEXPRET" ENDIANNESS="LITTLE" DATAPATH="/home/eugene/heptane-master/data"/>
 
-<!-- Cache -->
-<!-- NB: cache look-up is always considered when calculating the WCET, -->
-<!-- 111 for a all-miss for a 2-level cache hierarchy -->
-<!-- Set type="picache" for a perfect instruction cache, and type="pdcache" for a perfect data cache.
-     In this cases, nbsets, nbways, cachelinesize and replacement policy are irrelevant.  -->
-<!-- <CACHE nbsets="32" nbways="2" cachelinesize="32" replacement_policy="LRU" type="icache" level="1" latency="1"/>
-<CACHE nbsets="64" nbways="8" cachelinesize="64" replacement_policy="LRU" type="icache" level="2" latency="10"/>
-<CACHE nbsets="32" nbways="2" cachelinesize="32" replacement_policy="LRU" type="dcache" level="1" latency="1"/>
-<CACHE nbsets="64" nbways="8" cachelinesize="64" replacement_policy="LRU" type="dcache" level="2" latency="10"/> -->
-<MEMORY load_latency="100" store_latency="100"/>
+	<!-- Cache -->
+	<!-- NB: cache look-up is always considered when calculating the WCET, -->
+	<!-- 111 for a all-miss for a 2-level cache hierarchy -->
+	<!-- Set type="picache" for a perfect instruction cache, and type="pdcache" for a perfect data cache.
+			In this cases, nbsets, nbways, cachelinesize and replacement policy are irrelevant.  -->
+
+	<!-- Below CACHE added to match FLEXPRET scratch pad mem architecture -->
+	<CACHE type="picache" level="1" latency="0"/>
+	<CACHE type="pdcache" level="1" latency="0"/>
+	<!-- <CACHE nbsets="1" nbways="1" cachelinesize="32" replacement_policy="LRU" type="icache" level="1" latency="0"/>
+	<CACHE nbsets="1" nbways="1" cachelinesize="32" replacement_policy="LRU" type="dcache" level="1" latency="0"/> -->
+
+	<!-- Below load_latency="0" store_latency="0" set to match FLEXPRET scratch pad mem architecture -->
+	<MEMORY load_latency="0" store_latency="0"/><!-- Explicit memory latency -->
 
 
 </ARCHITECTURE>
@@ -44,57 +48,66 @@
 <!-- output file allows to keep the results of on analysis in a file for debug purposes -->
 <ANALYSIS>
 
-<!-- Build the cfg of the input_file, compute the contexts and set the entry point to be analyzed -->
-<ENTRYPOINT keepresults="on" input_file ="X_BENCH.xml" output_file ="X_BENCH__ENTRY_POINT_.xml" entrypointname="_ENTRY_POINT_"/>
+	<!-- Build the cfg of the input_file, compute the contexts and set the entry point to be analyzed -->
+	<ENTRYPOINT keepresults="on" input_file ="X_BENCH.xml" output_file ="X_BENCH__ENTRY_POINT_.xml" entrypointname="_ENTRY_POINT_"/>
 
-<!-- Instruction cache analysis: each of the 3 analysis steps (must/may/persistence) can be turned on/off individually -->
-<!-- <ICACHE keepresults="on" input_file ="" output_file ="resICacheL1.xml" level="1" must="on" persistence="on" may="on" />
-<ICACHE keepresults="on" input_file ="" output_file ="resICacheL2.xml" level="2" must="on" persistence="on" may="on" /> -->
+	<!-- Instruction cache analysis: each of the 3 analysis steps (must/may/persistence) can be turned on/off individually -->
 
-<!-- To use data cache analysis, you have to first call analysis DATAADDRESS to attach addresses -->
-<!-- to load/store instructions. This requires that the CFG is extracted with OUTPUTOBJDUMP and OUTPUTREADELF set to true -->
-<!-- Data cache analysis has to be called for each cache level individually -->
-<!-- <DATAADDRESS keepresults="on" input_file ="" output_file ="" sp="7FFFE000"/> -->
-<!-- Data cache analysis: each of the 3 analysis steps (must/may/persistence) can be turned on/off individually -->
-<!-- <DCACHE keepresults="on" input_file ="" output_file ="resDCacheL1.xml" level="1" must="on" persistence="on" may="on"/>
-<DCACHE keepresults="on" input_file ="" output_file ="resDCacheL2.xml" level="2" must="on" persistence="on" may="on"/> -->
+	<!-- Below ICACHE Uncommented to match FLEXPRET scratch pad mem architecture -->
+	<!-- <ICACHE keepresults="on" input_file ="" output_file ="resICacheL1.xml" level="1" must="on" persistence="on" may="on" /> -->
+	<!-- <ICACHE keepresults="on" input_file ="" output_file ="resICacheL2.xml" level="2" must="on" persistence="on" may="on" /> -->
 
-<!-- Pipeline analysis -->
-<!-- <PIPELINE keepresults="on" input_file ="" output_file ="resPipeline.xml"/> -->
+	<!-- To use data cache analysis, you have to first call analysis DATAADDRESS to attach addresses -->
+	<!-- to load/store instructions. This requires that the CFG is extracted with OUTPUTOBJDUMP and OUTPUTREADELF set to true -->
+	<!-- Data cache analysis has to be called for each cache level individually -->
 
-<!-- Final WCET computation.-->
-<IPET keepresults="on" input_file ="" 
-      output_file ="resIPET.xml" 
-      solver = "_SOLVER_"
-      pipeline= "off"
-      attach_WCET_info = "on"
-      generate_node_freq = "on"
-/> 
+	<!-- Below DATAADDRESS Uncommented to match FLEXPRET scratch pad mem architecture -->
+	<!-- <DATAADDRESS keepresults="on" input_file ="" output_file ="" sp="7FFFE000"/> -->
 
-<!-- Analysis of SESE regions -->
-<SESEANALYSIS  keepresults="on" input_file ="" output_file ="" />
+	<!-- Data cache analysis: each of the 3 analysis steps (must/may/persistence) can be turned on/off individually -->
+	<!-- Below DCACHE Uncommented to match FLEXPRET scratch pad mem architecture -->
+	<!-- <DCACHE keepresults="on" input_file ="" output_file ="resDCacheL1.xml" level="1" must="on" persistence="on" may="on"/> -->
+	<!-- <DCACHE keepresults="on" input_file ="" output_file ="resDCacheL2.xml" level="2" must="on" persistence="on" may="on"/> -->
 
-<!-- Gives cache statistics -->
-<!-- Requires that all cache levels of the architecture have been analyzed -->
-<!-- Also requires that the final WCET computation step has been applied, and that frequencies are kept -->
-<!-- <CACHESTATISTICS keepresults="on" input_file ="" output_file ="" /> -->
+	<!-- Pipeline analysis -->
+	<!-- Below PIPELINE Uncommented to match FLEXPRET scratch pad mem architecture -->
+	<PIPELINE keepresults="on" input_file ="" output_file ="resPipeline.xml"/>
 
-<!-- To be inserted to generate a text file describing the program's CFG -->
-<SIMPLEPRINT keepresults="on" input_file ="" output_file ="" 
-	     printcallgraph = "off" printloopnest = "off"
-	     printcfg = "off" printWCETinfo = "on"/>
+	<!-- Final WCET computation.-->
+	<IPET keepresults="on" input_file ="" 
+				output_file ="resIPET.xml" 
+				solver = "_SOLVER_"
+				pipeline= "on"
+				attach_WCET_info = "on"
+				generate_node_freq = "on"
+	/> 
 
-<!-- To be inserted to generate a jpeg file containing the program's CFG -->
-<DOTPRINT keepresults="on" input_file ="" output_file ="" detailed_BB="off" />
+	<!-- Analysis of SESE regions -->
+	<SESEANALYSIS  keepresults="on" input_file ="" output_file ="" />
 
-<!-- To be inserted to generate an Html file containing the frequency of code lines along the worst-case execution path -->
-<!-- Codeline information is inserted by applying analysis CODELINE, whereas HTMLPRINT generates the html -->
-<!-- CODELINE requires that the program is compiled with -ggdb option -->
-<CODELINE keepresults="on" input_file ="" output_file =""
-	  binaryfile="X_BENCH.exe"  addr2lineCommand="/home/eugene/heptane-master/CROSS_COMPILERS/RISCV/bin/riscv64-unknown-elf-addr2line" />
+	<!-- Gives cache statistics -->
+	<!-- Requires that all cache levels of the architecture have been analyzed -->
+	<!-- Also requires that the final WCET computation step has been applied, and that frequencies are kept -->
 
-<HTMLPRINT keepresults="on" input_file ="" output_file =""
-	  colorize="on" html_file ="X_BENCH.html"/>
+	<!-- Below CACHESTATISTICS Uncommented to match FLEXPRET scratch pad mem architecture -->
+	<!-- <CACHESTATISTICS keepresults="on" input_file ="" output_file ="" /> -->
+
+	<!-- To be inserted to generate a text file describing the program's CFG -->
+	<SIMPLEPRINT keepresults="on" input_file ="" output_file ="" 
+				printcallgraph = "off" printloopnest = "off"
+				printcfg = "off" printWCETinfo = "on"/>
+
+	<!-- To be inserted to generate a jpeg file containing the program's CFG -->
+	<DOTPRINT keepresults="on" input_file ="" output_file ="" detailed_BB="off" />
+
+	<!-- To be inserted to generate an Html file containing the frequency of code lines along the worst-case execution path -->
+	<!-- Codeline information is inserted by applying analysis CODELINE, whereas HTMLPRINT generates the html -->
+	<!-- CODELINE requires that the program is compiled with -ggdb option -->
+	<CODELINE keepresults="on" input_file ="" output_file =""
+			binaryfile="X_BENCH.exe"  addr2lineCommand="/home/eugene/heptane-master/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-addr2line" />
+
+	<HTMLPRINT keepresults="on" input_file ="" output_file =""
+			colorize="on" html_file ="X_BENCH.html"/>
 </ANALYSIS>
 
 </CONFIGURATION>

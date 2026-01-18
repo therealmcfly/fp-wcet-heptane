@@ -88,6 +88,7 @@ FLEXPRET::FLEXPRET(const bool is_big_endian_p, const string &dataPath)
 	formats["rs_zero_hex"].insert(new rs_zero_hex());
 	formats["jalr"].insert(new rs());
 	formats["jalr"].insert(new rd_rs());
+	// formats["jalr"].insert(new rs_mem()); // Added for jalr with memory operand : Added for FLEXPRET
 	formats["div"].insert(new zero_rs_rs("LO, HI"));
 	formats["div"].insert(new rs_rs("LO, HI"));
 	formats["rd_int"].insert(new rd_int());
@@ -150,6 +151,7 @@ FLEXPRET::FLEXPRET(const bool is_big_endian_p, const string &dataPath)
 
 	// Branch
 	mnemonicToInstructionTypes["jal"] = new Call("alu", formats["rd_addr"], new RISCV_DCALL(), GetLatencyDataValue("jal"));
+
 	mnemonicToInstructionTypes["ble"] = new ConditionalJump("alu", formats["rs_rs_addr"], new RISCV_BRANCH(), GetLatencyDataValue("ble"));
 	mnemonicToInstructionTypes["bge"] = new ConditionalJump("alu", formats["rs_rs_addr"], new RISCV_BRANCH(), GetLatencyDataValue("bge"));
 	mnemonicToInstructionTypes["bgeu"] = new ConditionalJump("alu", formats["rs_rs_addr"], new RISCV_BRANCH(), GetLatencyDataValue("bgeu"));
@@ -165,6 +167,9 @@ FLEXPRET::FLEXPRET(const bool is_big_endian_p, const string &dataPath)
 	mnemonicToInstructionTypes["bltu"] = new ConditionalJump("alu", formats["rs_rs_addr"], new RISCV_BRANCH(), GetLatencyDataValue("bltu"));
 	mnemonicToInstructionTypes["bleu"] = new ConditionalJump("alu", formats["rs_rs_addr"], new RISCV_BRANCH(), GetLatencyDataValue("bleu"));
 	mnemonicToInstructionTypes["beq"] = new ConditionalJump("alu", formats["rs_rs_addr"], new RISCV_BRANCH(), GetLatencyDataValue("beq"));
+
+	// mnemonicToInstructionTypes["jalr"] =
+	// 		new Return("alu", formats["jalr"], new RISCV_BRANCH(), GetLatencyDataValue("jalr")); // jalr can have different formats (rd, rs), (rs), (rs, offset) : Added for FLEXPRET
 
 	mnemonicToInstructionTypes["jr"] = new Return("alu", formats["rs"], new RISCV_BRANCH(), GetLatencyDataValue("jr")); // TODO check (cover with switch)
 
@@ -357,7 +362,7 @@ FLEXPRET::~FLEXPRET()
 	}
 }
 
-string RISCV::removeUselessCharacters(const string &line)
+string FLEXPRET::removeUselessCharacters(const string &line)
 {
 	string result = line;
 	for (size_t i = 0; i < line.length(); i++) // remove useless char
@@ -378,7 +383,7 @@ string RISCV::removeUselessCharacters(const string &line)
 	return result;
 }
 
-vector<string> RISCV::splitOperands(const string &operands)
+vector<string> FLEXPRET::splitOperands(const string &operands)
 {
 	vector<string> result;
 
@@ -410,17 +415,17 @@ vector<string> RISCV::splitOperands(const string &operands)
 	return result;
 }
 
-bool RISCV::isFunction(const string &line)
+bool FLEXPRET::isFunction(const string &line)
 {
 	return (line[0] != ' ');
 }
 
-bool RISCV::isInstruction(const string &line)
+bool FLEXPRET::isInstruction(const string &line)
 {
 	return (line[0] == ' ');
 }
 
-ObjdumpFunction RISCV::parseFunction(const string &line)
+ObjdumpFunction FLEXPRET::parseFunction(const string &line)
 {
 	ObjdumpFunction result;
 	result.line = line;
@@ -438,7 +443,7 @@ ObjdumpFunction RISCV::parseFunction(const string &line)
 	return result;
 }
 
-t_address RISCV::getJumpDestination(const ObjdumpInstruction &instr)
+t_address FLEXPRET::getJumpDestination(const ObjdumpInstruction &instr)
 {
 	// Get the last operand
 	string s_addr = instr.operands[instr.operands.size() - 1];
@@ -450,7 +455,7 @@ t_address RISCV::getJumpDestination(const ObjdumpInstruction &instr)
 	return result;
 }
 
-bool RISCV::isMemPattern(const string &operand)
+bool FLEXPRET::isMemPattern(const string &operand)
 {
 	if (operand.size() == 0)
 	{
@@ -505,7 +510,7 @@ bool RISCV::isMemPattern(const string &operand)
 
 **************************************************************/
 
-vector<string> RISCV::extractInputRegistersFromMem(const string &operand)
+vector<string> FLEXPRET::extractInputRegistersFromMem(const string &operand)
 {
 	string op_local = operand;
 	vector<string> result;
@@ -531,7 +536,7 @@ vector<string> RISCV::extractInputRegistersFromMem(const string &operand)
 	return result;
 }
 
-vector<string> RISCV::extractOutputRegistersFromMem(const string &operand)
+vector<string> FLEXPRET::extractOutputRegistersFromMem(const string &operand)
 {
 	// There are no output registers in memory access with RISCV
 	vector<string> result;
@@ -539,40 +544,40 @@ vector<string> RISCV::extractOutputRegistersFromMem(const string &operand)
 	return result;
 }
 
-bool RISCV::isLoadMultiple(const string &instr)
+bool FLEXPRET::isLoadMultiple(const string &instr)
 {
 	// There are no multiple load instructions in RISCV
 	assert(false);
 	return false;
 }
 
-int RISCV::getNumberOfLoads(const string &instr)
+int FLEXPRET::getNumberOfLoads(const string &instr)
 {
 	int result = 1; // only 1 in RISCV
 	assert(getInstructionTypeFromAsm(instr)->isLoad());
 	return result;
 }
 
-bool RISCV::isStoreMultiple(const string &instr)
+bool FLEXPRET::isStoreMultiple(const string &instr)
 {
 	// There are no multiple store instructions in RISCV
 	assert(false);
 	return false;
 }
 
-int RISCV::getNumberOfStores(const string &instr)
+int FLEXPRET::getNumberOfStores(const string &instr)
 {
 	int result = 1; // only 1 in RISCV
 	assert(getInstructionTypeFromAsm(instr)->isStore());
 	return result;
 }
 
-bool RISCV::isReturn(const ObjdumpInstruction &instr)
+bool FLEXPRET::isReturn(const ObjdumpInstruction &instr)
 {
 	return getInstructionTypeFromMnemonic(instr.mnemonic)->isReturn();
 }
 
-ObjdumpInstruction RISCV::parseInstruction(const string &line)
+ObjdumpInstruction FLEXPRET::parseInstruction(const string &line)
 {
 	ObjdumpInstruction result;
 	result.line = line;
@@ -610,7 +615,7 @@ ObjdumpInstruction RISCV::parseInstruction(const string &line)
 	return result;
 }
 
-string RISCV::rebuiltObjdumpInstruction(const string &vcode, t_address addrinstr)
+string FLEXPRET::rebuiltObjdumpInstruction(const string &vcode, t_address addrinstr)
 {
 	ostringstream oss;
 
@@ -618,7 +623,7 @@ string RISCV::rebuiltObjdumpInstruction(const string &vcode, t_address addrinstr
 	return oss.str() + " " + oss.str() + " " + vcode;
 }
 
-string RISCV::getCalleeName(const ObjdumpInstruction &instr)
+string FLEXPRET::getCalleeName(const ObjdumpInstruction &instr)
 {
 	assert(getInstructionTypeFromMnemonic(instr.mnemonic)->isCall());
 
@@ -629,7 +634,7 @@ string RISCV::getCalleeName(const ObjdumpInstruction &instr)
 	return result;
 }
 
-bool RISCV::getSection(ObjdumpSymbolTable &table, string &section, vector<ObjdumpSection>::const_iterator &it)
+bool FLEXPRET::getSection(ObjdumpSymbolTable &table, string &section, vector<ObjdumpSection>::const_iterator &it)
 {
 	for (it = table.sections.begin(); it != table.sections.end(); it++)
 		if ((*it).name == section)
@@ -637,7 +642,7 @@ bool RISCV::getSection(ObjdumpSymbolTable &table, string &section, vector<Objdum
 	return false;
 }
 
-void RISCV::parseSymbolTableLine(const string &line, ObjdumpSymbolTable &table)
+void FLEXPRET::parseSymbolTableLine(const string &line, ObjdumpSymbolTable &table)
 {
 	/* We assume that the input line is in the format : Value  Location  Type  Section  Size  Name
 		 for some lines, the field Type is empty */
@@ -714,120 +719,120 @@ void RISCV::parseSymbolTableLine(const string &line, ObjdumpSymbolTable &table)
 	}
 }
 
-ObjdumpWord RISCV::readWordInstruction(const ObjdumpInstruction &instr, ObjdumpSymbolTable &table)
+ObjdumpWord FLEXPRET::readWordInstruction(const ObjdumpInstruction &instr, ObjdumpSymbolTable &table)
 {
 	assert(false);
 	ObjdumpWord result;
 	return result;
 }
 
-bool RISCV::isPcInInputResources(const ObjdumpInstruction &instr)
+bool FLEXPRET::isPcInInputResources(const ObjdumpInstruction &instr)
 {
 	assert(false);
 	return false;
 }
 
-bool RISCV::isPcInOutputResources(const ObjdumpInstruction &instr)
+bool FLEXPRET::isPcInOutputResources(const ObjdumpInstruction &instr)
 {
 	assert(false);
 	return false;
 }
 
-vector<ObjdumpWord> RISCV::getWordsFromInstr(const ObjdumpInstruction &instr1, const ObjdumpInstruction &instr2, vector<ObjdumpWord> words,
-																						 bool &is_instr2_consumed)
+vector<ObjdumpWord> FLEXPRET::getWordsFromInstr(const ObjdumpInstruction &instr1, const ObjdumpInstruction &instr2, vector<ObjdumpWord> words,
+																								bool &is_instr2_consumed)
 {
 	assert(false);
 	vector<ObjdumpWord> result;
 	return result;
 }
 
-bool RISCV::isInputWrittenRegister(const string &operand)
+bool FLEXPRET::isInputWrittenRegister(const string &operand)
 {
 	assert(false);
 	return false;
 }
 
-string RISCV::extractRegisterFromInputWrittenOperand(const string &operand)
+string FLEXPRET::extractRegisterFromInputWrittenOperand(const string &operand)
 {
 	assert(false);
 	return "";
 }
 
-bool RISCV::isRegisterList(const string &operand)
+bool FLEXPRET::isRegisterList(const string &operand)
 {
 	assert(false);
 	return "";
 }
 
-vector<string> RISCV::extractRegistersFromRegisterList(const string &operand)
+vector<string> FLEXPRET::extractRegistersFromRegisterList(const string &operand)
 {
 	assert(false);
 	vector<string> result;
 	return result;
 }
 
-int RISCV::getSizeRegisterList(const string &operand)
+int FLEXPRET::getSizeRegisterList(const string &operand)
 {
 	assert(false);
 	return -1;
 }
 
-bool RISCV::isShifterOperand(const string &operand)
+bool FLEXPRET::isShifterOperand(const string &operand)
 {
 	assert(false);
 	return false;
 }
 
-string RISCV::extractRegisterFromShifterOperand(const string &operand)
+string FLEXPRET::extractRegisterFromShifterOperand(const string &operand)
 {
 	assert(false);
 	return "";
 }
 
-bool RISCV::getLoadStoreARMInfos(bool strongContext, string &instr, string &codeinstr, string &oregister, AddressingMode *vaddrmode,
-																 offsetType *TypeOperand, string &operand1, string &operand2, string &operand3)
+bool FLEXPRET::getLoadStoreARMInfos(bool strongContext, string &instr, string &codeinstr, string &oregister, AddressingMode *vaddrmode,
+																		offsetType *TypeOperand, string &operand1, string &operand2, string &operand3)
 {
 	assert(false);
 	return false;
 }
 
-bool RISCV::isPcLoadInstruction(string &instr)
+bool FLEXPRET::isPcLoadInstruction(string &instr)
 {
 	// assert(false);
 	return false;
 }
 
-bool RISCV::getInstr1ARMInfos(string &instr, string &codeinstr, string &oregister, offsetType *TypeOperand, string &operand1, string &operand2)
+bool FLEXPRET::getInstr1ARMInfos(string &instr, string &codeinstr, string &oregister, offsetType *TypeOperand, string &operand1, string &operand2)
 {
 	assert(false);
 	return false;
 }
 
-bool RISCV::getInstr2ARMInfos(string &instr, string &codeinstr, string &oregister, offsetType *TypeOperand, string &operand1, string &operand2, string &operand3)
+bool FLEXPRET::getInstr2ARMInfos(string &instr, string &codeinstr, string &oregister, offsetType *TypeOperand, string &operand1, string &operand2, string &operand3)
 {
 	assert(false);
 	return false;
 }
 
-bool RISCV::getMultipleLoadStoreARMInfos(string &instr, string &codeinstr, string &oregister, vector<string> &regList, bool *writeBack)
+bool FLEXPRET::getMultipleLoadStoreARMInfos(string &instr, string &codeinstr, string &oregister, vector<string> &regList, bool *writeBack)
 {
 	assert(false);
 	return false;
 }
 
-bool RISCV::isARMClassInstr(const string &codeop, const string &prefix)
+bool FLEXPRET::isARMClassInstr(const string &codeop, const string &prefix)
 {
 	assert(false);
 	return false;
 }
 
-bool RISCV::isConditionnedARMInstr(const string &codeop, const string &prefix)
+bool FLEXPRET::isConditionnedARMInstr(const string &codeop, const string &prefix)
 {
 	assert(false);
 	return false;
 }
 
-bool RISCV::getRegisterAndIndexStack(const string &instructionAsm, string &reg, int *i)
+bool FLEXPRET::getRegisterAndIndexStack(const string &instructionAsm, string &reg, int *i)
 {
 	string val, sp;
 

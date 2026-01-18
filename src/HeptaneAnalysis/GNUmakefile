@@ -9,7 +9,7 @@ OBJS= obj/Config.o obj/Analysis.o obj/AnalysisHelper.o obj/Timer.o obj/Context.o
 obj/CodeLine.o obj/CodeLineAttribute.o  obj/HtmlPrint.o \
 obj/SimplePrint.o obj/DotPrint.o obj/Cache.o obj/ICacheAnalysis.o obj/DCacheAnalysis.o obj/CacheStatistics.o obj/IPETAnalysis.o obj/Solver.o obj/RegState.o obj/MIPSRegState.o  obj/RISCVRegState.o \
 obj/StackAnalysis.o obj/AddressAnalysis.o obj/MIPSAddressAnalysis.o obj/ARMAddressAnalysis.o obj/MSP430RegState.o obj/MSP430AddressAnalysis.o obj/RISCVAddressAnalysis.o \
-obj/PipelineAnalysis.o obj/MIPSPipelineAnalysis.o obj/InstructionPipeline.o obj/ARMPipelineAnalysis.o obj/ARMRegState.o obj/MSP430PipelineAnalysis.o obj/RISCVPipelineAnalysis.o \
+obj/PipelineAnalysis.o obj/MIPSPipelineAnalysis.o obj/InstructionPipeline.o obj/ARMPipelineAnalysis.o obj/ARMRegState.o obj/MSP430PipelineAnalysis.o obj/RISCVPipelineAnalysis.o obj/FLEXPRETPipelineAnalysis.o\
 obj/StackInfoAttribute.o obj/DummyAnalysis.o \
 obj/SESERegion.o obj/SESEAnalysis.o \
 obj/main.o
@@ -31,6 +31,7 @@ $(vbin): $(OBJS) \
 	$(ARCHDEP_DIR_OBJ)/ARM.o\
 	$(ARCHDEP_DIR_OBJ)/MSP430.o\
 	$(ARCHDEP_DIR_OBJ)/RISCV.o\
+  $(ARCHDEP_DIR_OBJ)/FLEXPRET.o\
 	$(ARCHDEP_DIR_OBJ)/arch.o\
 	$(ARCHDEP_DIR_OBJ)/InstructionType.o\
 	$(ARCHDEP_DIR_OBJ)/InstructionFormat.o\
@@ -39,6 +40,7 @@ $(vbin): $(OBJS) \
         $(ARCHDEP_DIR_OBJ)/DAAInstruction_ARM.o \
         $(ARCHDEP_DIR_OBJ)/DAAInstruction_MSP430.o \
         $(ARCHDEP_DIR_OBJ)/DAAInstruction_RISCV.o \
+				$(ARCHDEP_DIR_OBJ)/DAAInstruction_FLEXPRET.o \
 	$(GLOB_ATTR_DIR_OBJ)/LoopTree.o\
 	$(GLOB_ATTR_DIR_OBJ)/AddressAttribute.o\
 	$(GLOB_ATTR_DIR_OBJ)/SymbolTableAttribute.o\

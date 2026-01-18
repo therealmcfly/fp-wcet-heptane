@@ -1,4 +1,4 @@
-inst,cycle
+instruction,cycle
 lui,1
 auipc,1
 addi,1
@@ -7,12 +7,12 @@ sltiu,1
 xori,1
 ori,1
 andi,1
-slli,1
+slli,100
 srli,1
 srai,1
 add,1
 sub,1
-sll,1
+sll,100
 slt,1
 sltu,1
 xor,1
@@ -52,7 +52,7 @@ du,5
 wu,5
 ee,1
 ie,1
-# Ammended
+# Ammended,
 # ALU / immediate,
 addw,1
 addiw,1
@@ -61,6 +61,9 @@ sext.w,1
 mv,1
 li,1
 nop,1
+seqz,1
+neg,1
+not,1
 # Branch aliases,
 bnez,3
 beqz,3
@@ -68,6 +71,8 @@ bgez,3
 bltz,3
 blez,3
 bgtz,3
+ble,3
+bleu,3
 # Control flow,
 j,3
 jr,3
