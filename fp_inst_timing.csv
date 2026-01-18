@@ -7,12 +7,12 @@ sltiu,1
 xori,1
 ori,1
 andi,1
-slli,100
+slli,1
 srli,1
 srai,1
 add,1
 sub,1
-sll,100
+sll,1
 slt,1
 sltu,1
 xor,1

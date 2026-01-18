@@ -64,7 +64,10 @@ public:
 	*/
 	bool PerformAnalysis();
 
-	/** Override scheduleNextInst to incorporate instruction-specific latencies */
+	/** Override scheduleFirstInst for 5-stage pipeline */
+	void scheduleFirstInst(Instruction &inst, vector<InstructionPipeline *> &IP, Context *context, bool first);
+
+	/** Override scheduleNextInst for 5-stage pipeline with instruction-specific latencies */
 	void scheduleNextInst(Instruction &inst, vector<InstructionPipeline *> &IP, Context *context, bool first);
 };
 #endif

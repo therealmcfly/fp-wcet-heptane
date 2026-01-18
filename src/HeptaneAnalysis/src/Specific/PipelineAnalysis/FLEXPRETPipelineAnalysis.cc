@@ -29,6 +29,7 @@
 FLEXPRETPipelineAnalysis::FLEXPRETPipelineAnalysis(Program *p, int nbcache) : MIPSPipelineAnalysis(p, nbcache)
 {
 	cout << "[FP DEBUG] FLEXPRET PipelineAnalysis Constructor Entered" << endl;
+	PIPELINEDEPTH = 5; // FLEXPRET uses a 5-stage pipeline: IF, ID, EX, MEM, WB
 }
 
 // Initialize CHMC attributes to "AH" for scratchpad memory simulation
@@ -81,7 +82,49 @@ bool FLEXPRETPipelineAnalysis::PerformAnalysis()
 	return MIPSPipelineAnalysis::PerformAnalysis();
 }
 
-// Override scheduleNextInst to properly incorporate instruction-specific latencies
+/**
+ * FLEXPRET 5-stage pipeline: IF, ID, EX, MEM, WB
+ * Schedule the first instruction of a basic block.
+ */
+void FLEXPRETPipelineAnalysis::scheduleFirstInst(Instruction &inst, vector<InstructionPipeline *> &IP, Context *context, bool first)
+{
+	string codeInstr = inst.GetCode();
+	InstructionPipeline *instTmp = new InstructionPipeline(PIPELINEDEPTH);
+	pipeStage *pipeStageTmp;
+
+	TRACE_PIPELINEANALYSIS(cout << " -- begin scheduleFirstInst() instr = " << codeInstr << endl);
+
+	unsigned int fetchAt = getFetchLatency(inst, context, first);
+
+	// Stage 1: IF (Instruction Fetch)
+	instTmp->insertInstruction(fetchAt);
+
+	// Stage 2: ID (Instruction Decode)
+	instTmp->propagateInstruction(1);
+
+	// Stage 3: EX (Execute) - use instruction-specific latency
+	unsigned int lat = Arch::getLatency(codeInstr);
+	pipeStageTmp = instTmp->propagateInstruction(lat);
+	pipeStageTmp->FU = Arch::getResourceFunctionalUnits(codeInstr);
+	pipeStageTmp->in = Arch::getResourceInputs(codeInstr);
+	assert(pipeStageTmp->FU.size() == 1);
+
+	// Stage 4: MEM (Memory Access)
+	instTmp->propagateInstruction(1);
+
+	// Stage 5: WB (Write Back)
+	pipeStageTmp = instTmp->propagateInstruction(1);
+	pipeStageTmp->out = Arch::getResourceOutputs(codeInstr);
+
+	IP.push_back(instTmp);
+	TRACE_PIPELINEANALYSIS(instTmp->Print());
+	TRACE_PIPELINEANALYSIS(cout << " -- end scheduleFirstInst " << endl);
+}
+
+/**
+ * FLEXPRET 5-stage pipeline: IF, ID, EX, MEM, WB
+ * Schedule subsequent instructions of a basic block.
+ */
 void FLEXPRETPipelineAnalysis::scheduleNextInst(Instruction &inst, vector<InstructionPipeline *> &IP, Context *context, bool first)
 {
 	string codeInstr = inst.GetCode();
@@ -91,12 +134,13 @@ void FLEXPRETPipelineAnalysis::scheduleNextInst(Instruction &inst, vector<Instru
 
 	unsigned int fetchAt = IP[IP.size() - 1]->getPipeStage(0)->tick + getFetchLatency(inst, context, first);
 
-	// Fetch stage
+	// Stage 1: IF (Instruction Fetch)
 	instTmp->insertInstruction(fetchAt);
-	// Decode stage
+
+	// Stage 2: ID (Instruction Decode)
 	instTmp->propagateInstruction(1);
 
-	// Check for dependencies
+	// Check for data dependencies
 	vector<string> inputs = Arch::getResourceInputs(codeInstr);
 	unsigned int i = IP.size() - 1;
 	unsigned int depTick = IP[i]->getDependencies(inputs);
@@ -119,35 +163,36 @@ void FLEXPRETPipelineAnalysis::scheduleNextInst(Instruction &inst, vector<Instru
 		}
 	}
 
-	// Get the max of depTick and FUTick
+	// Calculate execution stage delay based on dependencies/hazards
+	// For 5-stage pipeline: IF(0), ID(1), EX(2), MEM(3), WB(4)
+	// EX starts at fetchAt + 2
 	int execLat = 0;
 	if (depTick > FUTick)
-		execLat = depTick - (fetchAt + 3);
+		execLat = depTick - (fetchAt + 2);
 	else if (FUTick > depTick)
-		execLat = FUTick - (fetchAt + 3);
+		execLat = FUTick - (fetchAt + 2);
 
 	if (execLat < 0)
 		execLat = 0;
 
-	// FLEXPRET-specific: Get instruction latency and use it for execution stage
+	// Stage 3: EX (Execute) - use instruction-specific latency
 	unsigned int lat = Arch::getLatency(codeInstr);
-	cout << "[LATENCY DEBUG] Instruction: " << codeInstr << " -> Latency: " << lat << " cycles" << endl;
-
-	// Use the maximum of dependency-based delay and instruction latency
-	// This ensures multi-cycle instructions are properly accounted for
 	int totalExecLat = (lat > (unsigned int)(execLat + 1)) ? lat : (execLat + 1);
 
-	// Execution stage
 	pipeStage *pipeStageTmp = instTmp->propagateInstruction(totalExecLat);
 	pipeStageTmp->FU = FUs;
 	pipeStageTmp->in = Arch::getResourceInputs(codeInstr);
-	if (lat <= 1) // allow bypass
+	if (lat <= 1) // allow bypass for single-cycle instructions
 		pipeStageTmp->out = Arch::getResourceOutputs(codeInstr);
 
-	// WB stage, do WB only after preceding inst WB
+	// Stage 4: MEM (Memory Access)
+	instTmp->propagateInstruction(1);
+
+	// Stage 5: WB (Write Back) - must wait for previous instruction's WB
 	unsigned int WBAt = IP[IP.size() - 1]->getPipeStage(PIPELINEDEPTH - 1)->tick + 1;
+	pipeStageTmp = instTmp->getPipeStage(PIPELINEDEPTH - 2); // MEM stage
 	int WBLat = WBAt - pipeStageTmp->tick;
-	if (WBLat < 0)
+	if (WBLat < 1)
 		WBLat = 1;
 	pipeStageTmp = instTmp->propagateInstruction(WBLat);
 	pipeStageTmp->out = Arch::getResourceOutputs(codeInstr);

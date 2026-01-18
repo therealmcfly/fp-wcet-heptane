@@ -53,8 +53,8 @@ xori:1
 ori:1
 andi:1
 neg:1
-sll:100
-slli:100
+sll:1
+slli:1
 srai:1
 srli:1
 sra:1

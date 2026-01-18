@@ -34,7 +34,7 @@
 			In this cases, nbsets, nbways, cachelinesize and replacement policy are irrelevant.  -->
 
 	<!-- Below CACHE added to match FLEXPRET scratch pad mem architecture -->
-	<CACHE type="picache" level="1" latency="0"/>
+	<CACHE type="picache" level="1" latency="1"/>
 	<CACHE type="pdcache" level="1" latency="0"/>
 	<!-- <CACHE nbsets="1" nbways="1" cachelinesize="32" replacement_policy="LRU" type="icache" level="1" latency="0"/>
 	<CACHE nbsets="1" nbways="1" cachelinesize="32" replacement_policy="LRU" type="dcache" level="1" latency="0"/> -->
@@ -70,7 +70,6 @@
 	<!-- <DCACHE keepresults="on" input_file ="" output_file ="resDCacheL2.xml" level="2" must="on" persistence="on" may="on"/> -->
 
 	<!-- Pipeline analysis -->
-	<!-- Below PIPELINE Uncommented to match FLEXPRET scratch pad mem architecture -->
 	<PIPELINE keepresults="on" input_file ="" output_file ="resPipeline.xml"/>
 
 	<!-- Final WCET computation.-->
