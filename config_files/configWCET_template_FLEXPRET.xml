@@ -25,7 +25,7 @@
 <ARCHITECTURE>
 
 	<!-- Target type -->
-	<TARGET NAME="FLEXPRET" ENDIANNESS="LITTLE" DATAPATH="/home/eugene/heptane-master/data"/>
+	<TARGET NAME="FLEXPRET" ENDIANNESS="LITTLE" DATAPATH="/home/eugene/gastric-pacemaker/heptane-fp/data"/>
 
 	<!-- Cache -->
 	<!-- NB: cache look-up is always considered when calculating the WCET, -->
@@ -103,7 +103,7 @@
 	<!-- Codeline information is inserted by applying analysis CODELINE, whereas HTMLPRINT generates the html -->
 	<!-- CODELINE requires that the program is compiled with -ggdb option -->
 	<CODELINE keepresults="on" input_file ="" output_file =""
-			binaryfile="X_BENCH.exe"  addr2lineCommand="/home/eugene/heptane-master/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-addr2line" />
+			binaryfile="X_BENCH.exe"  addr2lineCommand="/home/eugene/gastric-pacemaker/heptane-fp/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-addr2line" />
 
 	<HTMLPRINT keepresults="on" input_file ="" output_file =""
 			colorize="on" html_file ="X_BENCH.html"/>

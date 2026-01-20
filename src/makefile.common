@@ -1,4 +1,4 @@
-include /home/eugene/heptane-master/src/makefile.config
+include /home/eugene/gastric-pacemaker/heptane-fp/src/makefile.config
 
 COMMONDIR=$(CURDIR)/../Common
 # CFGLIB install directory

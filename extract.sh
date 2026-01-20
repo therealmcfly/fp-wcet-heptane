@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #---------------------------------------------------------------------
 #
@@ -32,10 +32,10 @@ if [[ "$XARCH" =~ ^MSP430.* ]]
     then
     MCU=$(echo ${XARCH,,})
     ISA="430"
-    local mcu_infos=$(grep "${MCU}," /home/eugene/gastic-pacemaker/heptane-fp/CROSS_COMPILERS/MSP430/include/devices.csv)
+    local mcu_infos=$(grep "${MCU}," ${HERE}/CROSS_COMPILERS/MSP430/include/devices.csv)
     if [ -z "${mcu_infos}" ]
 	then
-	echo " MCU ${MCU} not found in the cross compiler devices /home/eugene/gastic-pacemaker/heptane-fp/CROSS_COMPILERS/MSP430/include/devices.csv"
+	echo " MCU ${MCU} not found in the cross compiler devices ${HERE}/CROSS_COMPILERS/MSP430/include/devices.csv"
 	echo " You can try  MSP430F4250 for ISA 430, MSP430FR5739 for ISA 430xv2 "
 	exit -1
     else
@@ -100,19 +100,19 @@ MSP430_GET_MCU_ISA
 
 if [ "$XARCH" = "MIPS" ] || [ "$XARCH" = "ARM" ] || [ "$XARCH" = "MSP430" ] || [ "$XARCH" = "RISCV" ]
 then
-    if [ -d "/home/eugene/gastic-pacemaker/heptane-fp/CROSS_COMPILERS/$XARCH" ];then
+    if [ -d "${HERE}/CROSS_COMPILERS/$XARCH" ];then
 	cd ${RESULT_DIR}
 	\rm *.xml
         #configExtract.xml generation : _MPCU_ and _ISA_ are parameters of the MSP430 family.
-	sed -e "s#BENCH_DIR#${RESULT_DIR}#g" -e "s#X_BENCH#${BENCH}#g" -e "s#_ENTRY_POINT_#${ENTRYPOINT}#g" -e "s#_RESULTDIR_#${OUTPUTSUBDIR}#g" -e "s#_MCU_#${MCU}#g" -e "s#_ISA_#${ISA}#g" /home/eugene/gastic-pacemaker/heptane-fp/config_files/configExtract_template_${XARCH}.xml >  ${OUTPUTSUBDIR}/configExtract.xml
+	sed -e "s#BENCH_DIR#${RESULT_DIR}#g" -e "s#X_BENCH#${BENCH}#g" -e "s#_ENTRY_POINT_#${ENTRYPOINT}#g" -e "s#_RESULTDIR_#${OUTPUTSUBDIR}#g" -e "s#_MCU_#${MCU}#g" -e "s#_ISA_#${ISA}#g" ${HERE}/config_files/configExtract_template_${XARCH}.xml >  ${OUTPUTSUBDIR}/configExtract.xml
 	chmod gou+x ${OUTPUTSUBDIR}/configExtract.xml
          #extraction
-	/home/eugene/gastic-pacemaker/heptane-fp/bin/HeptaneExtract ${OPTION}  ${OUTPUTSUBDIR}/configExtract.xml  | tee  ${OUTPUTSUBDIR}/extract_${BENCH}_${XARCH}.log
+	${HERE}/bin/HeptaneExtract ${OPTION}  ${OUTPUTSUBDIR}/configExtract.xml  | tee  ${OUTPUTSUBDIR}/extract_${BENCH}_${XARCH}.log
 	
 	cd $HERE
 	exit 0
     else
-	echo ">>> ERROR: the ${XARCH} cross compiler does not exist in /home/eugene/gastic-pacemaker/heptane-fp/CROSS_COMPILERS !!! "
+	echo ">>> ERROR: the ${XARCH} cross compiler does not exist in ${HERE}/CROSS_COMPILERS !!! "
 	exit -1
     fi
 else

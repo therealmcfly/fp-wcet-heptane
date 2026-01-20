@@ -3,27 +3,27 @@
 
 <CONFIGURATION>
 
-<TARGET NAME="FLEXPRET" ENDIANNESS="LITTLE" DATAPATH="/home/eugene/heptane-master/data"/>
+<TARGET NAME="FLEXPRET" ENDIANNESS="LITTLE" DATAPATH="/home/eugene/gastric-pacemaker/heptane-fp/data"/>
 
 <!-- Compiler toolchain -->
 <!-- ****************** -->
 
 <!-- Preprocessor -->
-<PREPROCESSOR NAME="/home/eugene/heptane-master/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-cpp" OPT="-DRISCV_ARCHI -I. -I.."/>
+<PREPROCESSOR NAME="/home/eugene/gastric-pacemaker/heptane-fp/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-cpp" OPT="-DRISCV_ARCHI -I. -I.."/>
 <!-- Compiler (options -c -S are automatically put to generate assembly code) -->
 <!-- Option -ggdb should be used if html output of critical path is asked for in subsequent WCET estimation -->
-<COMPILER NAME="/home/eugene/heptane-master/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-gcc" OPT="-O0 -g -ggdb -fno-builtin -fno-inline -march=rv32i -mabi=ilp32"/>
+<COMPILER NAME="/home/eugene/gastric-pacemaker/heptane-fp/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-gcc" OPT="-O0 -g -ggdb -fno-builtin -fno-inline -march=rv32i -mabi=ilp32"/>
 <!-- Assembler -->
-<ASSEMBLER NAME="/home/eugene/heptane-master/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-as" OPT=""/>
+<ASSEMBLER NAME="/home/eugene/gastric-pacemaker/heptane-fp/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-as" OPT=""/>
 <!-- Linker (option -T script is automatically set when SCRIPT is specified) -->
-<LINKER NAME="/home/eugene/heptane-master/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-ld" OPT="-m elf32lriscv" SCRIPT=""/>
+<LINKER NAME="/home/eugene/gastric-pacemaker/heptane-fp/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-ld" OPT="-m elf32lriscv" SCRIPT=""/>
 <!-- Objdump -->
-<!-- <OBJDUMP NAME="/home/eugene/heptane-master/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-objdump" OPT=" -ztd -M no-aliases "/> -->
+<!-- <OBJDUMP NAME="/home/eugene/gastric-pacemaker/heptane-fp/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-objdump" OPT=" -ztd -M no-aliases "/> -->
 <!-- -M no-aliases option will disable the use of instruction aliases but will throw : WARNING : a FunctionCallNode refers to a not existing Cfg main+0x3c
 Creating an empty external Cfg (assumes callee is a library function) -->
-<OBJDUMP NAME="/home/eugene/heptane-master/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-objdump" OPT=" -ztd "/>
+<OBJDUMP NAME="/home/eugene/gastric-pacemaker/heptane-fp/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-objdump" OPT=" -ztd "/>
 <!-- Readelf (called with option -S) -->
-<READELF NAME="/home/eugene/heptane-master/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-readelf" OPT="-W "/>
+<READELF NAME="/home/eugene/gastric-pacemaker/heptane-fp/CROSS_COMPILERS/FLEXPRET/bin/riscv64-unknown-elf-readelf" OPT="-W "/>
 
 <!-- Directories of inputs, temporaries and outputs (default values . /tmp and .) -->
 <!-- **************************************************************************** -->
