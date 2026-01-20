@@ -27,15 +27,16 @@ function MSP430_GET_MCU_ISA {
 # Setting the MCU and ISA variables.
 # The  MCU is the lower case of the $XARCH value (ie second argumen of the script)
 # Getting the ISA (Instruction Set Architecture): msp430, msp430x, and msp430xv2.
+HERE=`pwd`
 
 if [[ "$XARCH" =~ ^MSP430.* ]]
     then
     MCU=$(echo ${XARCH,,})
     ISA="430"
-    local mcu_infos=$(grep "${MCU}," /home/eugene/heptane-master/CROSS_COMPILERS/MSP430/include/devices.csv)
+    local mcu_infos=$(grep "${MCU}," ${HERE}/CROSS_COMPILERS/MSP430/include/devices.csv)
     if [ -z "${mcu_infos}" ]
 	then
-	echo " MCU ${MCU} not found in the cross compiler devices /home/eugene/heptane-master/CROSS_COMPILERS/MSP430/include/devices.csv"
+	echo " MCU ${MCU} not found in the cross compiler devices ${HERE}/CROSS_COMPILERS/MSP430/include/devices.csv"
 	echo " You can try  MSP430F4250 for ISA 430, MSP430FR5739 for ISA 430xv2 "
 	exit -1
     else
@@ -45,6 +46,7 @@ if [[ "$XARCH" =~ ^MSP430.* ]]
         local xx="$(echo ${mcu_infos:${e}})"
         local e="$(expr index "${xx}" ',')"
         local CODEMCU="$(echo ${xx:0:${e}-1})"
+				
 	if [ "$CODEMCU" = "0" ]
 	then 
 	    ISA=430
@@ -100,14 +102,14 @@ MSP430_GET_MCU_ISA
 
 if [ "$XARCH" = "MIPS" ] || [ "$XARCH" = "ARM" ] || [ "$XARCH" = "MSP430" ] || [ "$XARCH" = "RISCV" ] || [ "$XARCH" = "FLEXPRET" ]
 then
-    if [ -d "/home/eugene/heptane-master/CROSS_COMPILERS/$XARCH" ];then
+    if [ -d "${HERE}/CROSS_COMPILERS/$XARCH" ];then
 	cd ${RESULT_DIR}
 	\rm ${OUTPUTSUBDIR}/*.xml
         #configExtract.xml generation : _MPCU_ and _ISA_ are parameters of the MSP430 family.
-	sed -e "s#BENCH_DIR#${RESULT_DIR}#g" -e "s#X_BENCH#${BENCH}#g" -e "s#_ENTRY_POINT_#${ENTRYPOINT}#g" -e "s#_RESULTDIR_#${OUTPUTSUBDIR}#g" -e "s#_MCU_#${MCU}#g" -e "s#_ISA_#${ISA}#g" /home/eugene/heptane-master/config_files/configExtract_template_${XARCH}.xml >  ${OUTPUTSUBDIR}/configExtract.xml
+	sed -e "s#BENCH_DIR#${RESULT_DIR}#g" -e "s#X_BENCH#${BENCH}#g" -e "s#_ENTRY_POINT_#${ENTRYPOINT}#g" -e "s#_RESULTDIR_#${OUTPUTSUBDIR}#g" -e "s#_MCU_#${MCU}#g" -e "s#_ISA_#${ISA}#g" ${HERE}/config_files/configExtract_template_${XARCH}.xml >  ${OUTPUTSUBDIR}/configExtract.xml
 	chmod gou+x ${OUTPUTSUBDIR}/configExtract.xml
          #extraction
-	/home/eugene/heptane-master/bin/HeptaneExtract ${OPTION}  ${OUTPUTSUBDIR}/configExtract.xml  | tee  ${OUTPUTSUBDIR}/extract_${BENCH}_${XARCH}.log
+	${HERE}/bin/HeptaneExtract ${OPTION}  ${OUTPUTSUBDIR}/configExtract.xml  | tee  ${OUTPUTSUBDIR}/extract_${BENCH}_${XARCH}.log
 	
 	cd $HERE
 	exit 0

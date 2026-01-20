@@ -61,9 +61,9 @@ if [[ "${ARCHI}" =~ ^MSP430.* ]] ; then XARCH=MSP430 ; else XARCH=${ARCHI} ; fi
 if [ "${XARCH}" = "MIPS" ] || [ "${XARCH}" = "ARM" ] || [ "${XARCH}" = "MSP430" ] || [ "${XARCH}" = "RISCV" ]
 then
     cd ${RESULT_DIR}
-    sed  -e "s#BENCH_DIR#${RESULT_DIR}#g" -e "s/X_BENCH/${BENCH}/g" -e "s/_ENTRY_POINT_/${ENTRYPOINT}/g"  -e "s/_SOLVER_/${SOLVER}/g"  -e "s#_CROSS_COMPILER_DIR_#/home/eugene/heptane-master/CROSS_COMPILERS/${XARCH}/bin#g" /home/eugene/heptane-master/config_files/configWCET_template_${XARCH}.xml > ${CONFIGFILE}
+    sed  -e "s#BENCH_DIR#${RESULT_DIR}#g" -e "s/X_BENCH/${BENCH}/g" -e "s/_ENTRY_POINT_/${ENTRYPOINT}/g"  -e "s/_SOLVER_/${SOLVER}/g"  -e "s#_CROSS_COMPILER_DIR_#/home/eugene/gastic-pacemaker/heptane-fp/CROSS_COMPILERS/${XARCH}/bin#g" /home/eugene/gastic-pacemaker/heptane-fp/config_files/configWCET_template_${XARCH}.xml > ${CONFIGFILE}
     chmod gou+x  ${CONFIGFILE}
-    /home/eugene/heptane-master/bin/HeptaneAnalysis ${OPTION}  ${CONFIGFILE}  | tee ${RESULT_DIR}/analysis_${BENCH}_${XARCH}_${SOLVER}.log
+    /home/eugene/gastic-pacemaker/heptane-fp/bin/HeptaneAnalysis ${OPTION}  ${CONFIGFILE}  | tee ${RESULT_DIR}/analysis_${BENCH}_${XARCH}_${SOLVER}.log
 
     #clean: uncomment if you want to clean
      #rm ${CONFIGFILE}
